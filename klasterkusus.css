@@ -1,0 +1,56 @@
+
+
+      body {
+        background: #f0f4f5;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .logo {
+        max-height: 100px;
+      }
+
+      .table-responsive {
+        max-height: 75vh;
+        overflow: auto;
+        position: relative;
+      }
+
+      table {
+        width: max-content;
+        border-collapse: collapse;
+      }
+
+      .table th,
+      .table td {
+        white-space: nowrap;
+        vertical-align: middle;
+        font-size: 0.72rem;
+      }
+
+      /* Sticky header baris 1 */
+      .table thead tr:nth-child(1) th {
+        position: sticky;
+        top: 0;
+        background-color: #198754 !important;
+        color: white !important;
+        z-index: 3;
+      }
+
+      /* Sticky header baris 2 (bulan) */
+      .table thead tr:nth-child(2) th {
+        position: sticky;
+        top: 52px; /* Sesuaikan sesuai tinggi header baris 1 */
+        background-color: #198754 !important;
+        color: white !important;
+        z-index: 2;
+      }
+
+      .bulan-input {
+        width: 45px;
+        font-size: 0.72rem;
+        text-align: center;
+      }
+
+      .updated {
+        background-color: #d1e7dd !important;
+      }

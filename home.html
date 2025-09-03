@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PKP 2025 Puskesmas Trenggalek</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      html {
+        height: 100%;
+       background: linear-gradient(to bottom, #ffffff 0%, #e9f7ef 60%, #d0f0d0 100%);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-top: 80px;
+        background: transparent; /* biar ambil dari html */
+      }
+
+      .main-content {
+        flex: 1;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: linear-gradient(90deg, #2e7d32, #66bb6a);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        color: #fff !important;
+        letter-spacing: 0.5px;
+      }
+
+      /* Section title */
+      .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #2e7d32;
+        font-weight: 700;
+        font-size: 1.9rem;
+      }
+
+      /* Card */
+      .custom-card {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 1.5rem;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        border: none;
+        text-align: center;
+        animation: fadeInUp 0.8s ease-in-out;
+      }
+
+      .custom-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+      }
+
+      .custom-card .card-number {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: #2e7d32;
+        color: #fff;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+      }
+
+      .custom-card i {
+        font-size: 2.5rem;
+        color: #2e7d32;
+        margin-bottom: 1rem;
+      }
+
+      .custom-card h5 {
+        font-weight: 500;
+        color: #2e7d32;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .btn-outline-success {
+        border-radius: 8px;
+        font-size: 0.9rem;
+        padding: 6px 14px;
+        transition: all 0.2s;
+      }
+
+      .btn-outline-success:hover {
+        background: #2e7d32;
+        color: #fff;
+      }
+
+      /* Footer */
+      footer {
+        background: #f1f8f4;
+        padding: 1rem 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      footer a {
+        color: #2e7d32;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 6px;
+      }
+
+      /* Animasi */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .section-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">PKP 2025 Puskesmas Trenggalek</a>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="main-content">
+      <div class="container">
+        <div class="text-center mb-4">
+          <img
+            src="https://puskesmastrenggalek.github.io/SIP/assets/pkm.png"
+            alt="Logo"
+            style="width: 120px"
+            class="mb-2"
+          />
+        </div>
+        <h2 class="section-title">
+          INDIKATOR PENILAIAN KINERJA PUSKESMAS TRENGGALEK 2025
+        </h2>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+          <!-- Card 1 -->
+          <div class="col">
+            <div class="custom-card">
+              <div class="card-number">01</div>
+              <i class="fas fa-chart-line"></i>
+              <h5>Indikator Kinerja Utama</h5>
+              <button
+                class="btn btn-outline-success btn-sm open-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#modalCard1"
+                data-modal="modalCard1"
+              >
+                Indikator IKU
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col">
+            <div class="custom-card">
+              <div class="card-number">02</div>
+              <i class="fas fa-briefcase"></i>
+              <h5>Klaster 1 : Manajemen</h5>
+              <button
+                class="btn btn-outline-success btn-sm open-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#manajemenModal"
+                data-modal="manajemenModal"
+              >
+                Indikator Manajemen
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col">
+            <div class="custom-card">
+              <div class="card-number">03</div>
+              <i class="fas fa-baby"></i>
+              <h5>Klaster 2 : Ibu Anak</h5>
+              <button
+                class="btn btn-outline-success btn-sm open-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#programKlaster2"
+                data-modal="programKlaster2"
+              >
+                Lihat Tabel Program
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="col">
+            <div class="custom-card">
+              <div class="card-number">04</div>
+              <i class="fas fa-user-friends"></i>
+              <h5>Klaster 3 : Dewasa & Lansia</h5>
+              <button
+                class="btn btn-outline-success btn-sm open-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#dewasaModal"
+                data-modal="dewasaModal"
+              >
+                Lihat Tabel Program
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="col">
+            <div class="custom-card">
+              <div class="card-number">05</div>
+              <i class="fas fa-leaf"></i>
+              <h5>Klaster 4 : P2 Kesling</h5>
+              <button
+                class="btn btn-outline-success btn-sm open-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#klaster4Modal"
+                data-modal="klaster4Modal"
+              >
+                Lihat Tabel Program
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="col">
+            <div class="custom-card">
+              <div class="card-number">06</div>
+              <i class="fas fa-network-wired"></i>
+              <h5>Lintas Klaster</h5>
+              <button
+                class="btn btn-outline-success btn-sm open-modal"
+                data-bs-toggle="modal"
+                data-bs-target="#lintasklasterModal"
+                data-modal="lintasklasterModal"
+              >
+                Lihat Tabel Program
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2025 Puskesmas Trenggalek.
+      <a href="analisa.html">Rekap</a>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+<script>
+  // Saat tombol modal diklik, simpan ID modal ke sessionStorage
+  document.querySelectorAll(".open-modal").forEach(btn => {
+    btn.addEventListener("click", function () {
+      sessionStorage.setItem("lastModal", this.dataset.modal);
+    });
+  });
+
+  // Saat halaman dimuat ulang, cek apakah ada modal terakhir yang dibuka
+  window.addEventListener("DOMContentLoaded", () => {
+    const lastModal = sessionStorage.getItem("lastModal");
+    if (lastModal) {
+      const modalEl = document.getElementById(lastModal);
+      if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+      }
+    }
+  });
+</script>
+
+
+<!-- Modal Program / Kegiatan -->
+<div
+  class="modal fade"
+  id="dewasaModal"
+  tabindex="-1"
+  aria-labelledby="dewasaModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="dewasaModalLabel">
+          Tabel Program / Kegiatan
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <!-- Tabel isi dari langkah sebelumnya -->
+          <table
+            class="table table-bordered table-sm align-middle small text-center"
+          >
+            <thead class="table-light">
+              <tr>
+                <th class="text-start" width="500px">
+                  Program/Kegiatan Klaster 3
+                </th>
+                <th width="100px">Jumlah Indikator</th>
+                <th class="text-start" width="250px">Penanggung Jawab</th>
+                <th><a href="klaster.html?klaster=Klaster 3">Link</a></th>
+              </tr>
+            </thead>
+            <tbody>
+               <tr>
+                <td class="text-start">Kesehatan Jiwa 1</td>
+                <td style="background: #2196f3; color: white">8</td>
+                <td class="text-start">Ns. SELIYA CITRA PRATIWI, S.Kep.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=jiwa1&nama=Ns. SELIYA CITRA PRATIWI, S.Kep.&nip=19841029 201001 2 019&img=seliya.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Kesehatan Jiwa 2</td>
+                <td style="background: #2196f3; color: white">6</td>
+                <td class="text-start">AGUS WAHYONO, Amd.Kep.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=jiwa2&nama=AGUS WAHYONO, Amd.Kep.&nip=19730821 200604 1 008&img=agus.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Kespro & P2P PTM KESPRO</td>
+                <td style="background: #2196f3; color: white">11</td>
+                <td class="text-start">Lilik Susanti S.S.T.Keb.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Kespro&nama=Lilik Susanti S.S.T.Keb.&nip=19700304 199203 2 005&img=lilik.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Lansia & PKG-Lansia</td>
+                <td style="background: #2196f3; color: white">2</td>
+                <td class="text-start">DINA ANINGGARWATI, Amd.Kep.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Lansia&nama=DINA ANINGGARWATI, Amd.Kep.&nip=19821208 201406 2 003&img=dina.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+           
+              <tr>
+                <td class="text-start">P2P PTM (DM-HT) & PKG-Dewasa</td>
+                <td style="background: #2196f3; color: white">10</td>
+                <td class="text-start">Bekti Kusuma Dewi S.Kep.Ners</td>
+
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PTM-Bekti&nama=Bekti Kusuma Dewi S.Kep.Ners&nip=19880706 201903 2 004&img=bekti.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P PTM (OBES,JANTUNG, & STROKE)</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Linda Dwirahayu Setyorini A.Md.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PTM-Linda&nama=Linda Dwirahayu Setyorini A.Md.Kep&nip=19860212 202321 2 003&img=linda.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P PTM (PARU, ROKOK)</td>
+                <td style="background: #2196f3; color: white">8</td>
+                <td class="text-start">Ns.TANJUNG PANJI ASMORO, S.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PTM-Panji&nama=Ns.TANJUNG PANJI ASMORO, S.Kep&nip=19920626 202321 1 001&img=panji.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+            
+              <tr>
+                <td class="text-start">P2P PTM (INDERA)</td>
+                <td style="background: #2196f3; color: white">2</td>
+                <td class="text-start">Paryati, S.Tr.Keb.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PTM-Paryati&nama=Paryati, S.Tr.Keb.&nip=19700629 199102 2 003&img=paryati.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-start fw-bold">
+                  <p>Manajemen</p>
+                </td>
+              </tr>
+               <tr>
+                <td class="text-start">Jejaring berbasis tempat kerja</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Lisa Endrieni Amd.Kep</td>
+                <td class="text-center">
+                 
+                  <a
+                    href="klaster1.html?program=1.8.3 Jejaring berbasis tempat kerja&nama=Lisa Endrieni Amd.Kep&nip=19870126 202221 2 001&img=lisa.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="klaster4Modal"
+  tabindex="-1"
+  aria-labelledby="klaster4ModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="klaster4ModalLabel">
+          Tabel Program / Kegiatan
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <!-- Tabel isi dari langkah sebelumnya -->
+          <table
+            class="table table-bordered table-sm align-middle small text-center"
+          >
+            <thead class="table-light">
+              <tr>
+                <th class="text-start" width="500px">
+                  Program/Kegiatan Klaster 4
+                </th>
+                <th widt="80px" >Jumlah Indikator</th>
+                <th class="text-start" width="250px">Penanggung Jawab</th>
+                <th><a href="klaster.html?klaster=Klaster 4">Link</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-start">P2P TBC</td>
+                <td style="background: #2196f3; color: white">11</td>
+                <td class="text-start">Nurkolis S.Kep Ners</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P TBC&nama=Nurkolis S.Kep Ners&nip=19780611 199803 1 005$img=nurkolis.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P Hepatitis</td>
+                <td style="background: #2196f3; color: white">2</td>
+                <td class="text-start">Fitria Rahmawati Amd.Keb</td>
+                
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P Hepatitis&nama=Fitria Rahmawati Amd.Keb&nip=19950302 202203 2 003&img=fitria.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+             
+              <tr>
+                <td class="text-start">P2P Diare</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Fitria Rahmawati Amd.Keb</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P Diare&nama=Fitria Rahmawati Amd.Keb&nip=19950302 202203 2 003&img=fitria.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P ISPA</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Oktarina Fadlilah Amd.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P ISPA&nama=Oktarina Fadlilah Amd.Kep&nip=19971030 202203 2 007&img=oktarina.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P Kusta</td>
+                <td style="background: #2196f3; color: white">5</td>
+                <td class="text-start">Dwiyanti Pra setyaningsih Amd.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P Kusta&nama=Dwiyanti Pra setyaningsih Amd.Kep&nip=19980123 202203 2 003&img=dwiyanti.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P HIV/AIDS</td>
+                <td style="background: #2196f3; color: white">2</td>
+                <td class="text-start">Wahyu Puji Lestari Amd.Keb</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P HIV/AIDS&nama=Wahyu Puji Lestari Amd.Keb&nip=19901004 202221 2 002&img=puput.jpeg"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              
+              
+              <tr>
+                <td class="text-start">P2P Malaria</td>
+                <td style="background: #2196f3; color: white">4</td>
+                <td class="text-start">Tatik Sri Setyo rahayu Amd.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P Malaria&nama=Tatik Sri Setyo rahayu Amd.Kep&nip=19821016 202321 2 002&img=mbt.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P Rabies</td>
+                <td style="background: #2196f3; color: white">2</td>
+                <td class="text-start">Dwiyanti Pra setyaningsih Amd.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P Rabies&nama=Dwiyanti Pra setyaningsih Amd.Kep&nip=19980123 202203 2 003&img=dwiyanti.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P DBD</td>
+                <td style="background: #2196f3; color: white">2</td>
+                <td class="text-start">Anjar Tri Cahyaningsih Amd.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P DBD&nama=Anjar Tri Cahyaningsih Amd.Kep&nip=  &img=anjar.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">P2P Surveilans</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Adhita Ayu Agustin SKM</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P Surveilans&nama=Adhita Ayu Agustin SKM&nip=19960829 202321 2 001&img=adhita.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Kesling</td>
+                <td style="background: #2196f3; color: white">18</td>
+                <td class="text-start">Rudy Kurniawan A.Md K.L</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Kesling&nama=Rudy Kurniawan A.Md K.L&nip=19771107 200903 1 004&img=rudy.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">PK2</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">	Nurkolis S.Kep.Ners</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PK2&nama=Nurkolis S.Kep.Ners&nip=19780611 199803 1 005&img=nurkolis.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="lintasklasterModal"
+  tabindex="-1"
+  aria-labelledby="lintasklasterModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="lintasklasterModalLabel">
+          Tabel Program / Kegiatan
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <!-- Tabel isi dari langkah sebelumnya -->
+          <table
+            class="table table-bordered table-sm align-middle small text-center"
+          >
+            <thead class="table-light">
+              <tr>
+                <th class="text-start" width="500px">
+                  Program/Kegiatan Lintas Klaster
+                </th>
+                <th width="80px">Jumlah Indikator</th>
+                <th class="text-start" width="250px">Penanggung Jawab</th>
+                <th><a href="klaster.html?klaster=Lintas Klaster">Link</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-start">Kesehatan Tradisional & Akupresur</td>
+                <td style="background: #2196f3; color: white">8</td>
+                <td class="text-start">Ratna Dwi Kustanti Amd.Keb</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Kes. Tradisional&nama=Ratna Dwi Kustanti Amd.Keb&nip=19760606 200801 2 036&img=ratna.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Gigi dan Mulut</td>
+                <td style="background: #2196f3; color: white">11</td>
+                <td class="text-start">drg. Dian Sita Ristiana</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Gigi dan Mulut&nama=drg. Dian Sita Ristiana&nip=19821022 201001 2 014&img=diansita.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Gawat Darurat</td>
+                <td style="background: #2196f3; color: white">6</td>
+                <td class="text-start">Yanu Prastyo Amd.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Gawat Darurat&nama=Yanu Prastyo Amd.Kep&nip=19840120 202221 1 001&img=yanu.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Kefarmasian</td>
+                <td style="background: #2196f3; color: white">17</td>
+                <td class="text-start">Dhearara Widhiayu Rizky S.Farm.Apt</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Kefarmasian&nama=Dhearara Widhiayu Rizky S.Farm.Apt&nip=19950506 201903 2 005&img=dhearara.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Laboratorium</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">TITIK SUWANTI, A.Md.</td>
+                <td>
+                  <a
+                    href="klasterkusus.html?kategori=Laboratorium&nama=TITIK SUWANTI, A.Md.&nip=19921104 202012 2 005&img=novita.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Ranap</td>
+                <td style="background: #f30b0b; color: white">1</td>
+                <td class="text-start">-</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Ranap"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              
+                <tr colspan="2">
+                  <td >
+
+                  <p class="text-start fw-bold">Manajemen</p>
+                </td>
+                </tr>
+                <tr>
+                  <td class="text-start">Jejaring Wilayah (Tradisional)</td>
+                  <td class="text-center" style="background: #2196f3; color: white">5</td>
+                  <td class="text-start">Ratna Dewi Kustanti Amd.Keb</td>
+                  <td class="text-center">
+                    <span class="fw-bold"></span>
+                    <a
+                      href="klaster1.html?program=1.8.1.1 Pelayanan Kesehatan Tradisional&nama=Ratna Dewi Kustanti Amd.Keb&nip=19760606 200801 2 036&img=ratna.png"
+                      class="badge bg-success text-center text-decoration-none ms-2"
+                    >
+                      Lihat Data
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-start">Jejaring Sistem Rujukan</td>
+                  <td style="background: #2196f3; color: white">1</td>
+                  <td class="text-start">Yanu Prastyo Amd.Kep</td>
+                  <td class="text-center">
+                    <a
+                      href="klaster1.html?program=1.8.4 Jejaring Sistem Rujukan&nama=Yanu Prastyo Amd.Kep&nip=198401202022211001&img=yanu.png"
+                      class="badge bg-success text-center text-decoration-none ms-2"
+                    >
+                      Lihat Data
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                <td class="text-start">Manajemen Farmasi</td>
+                <td style="background: #2196f3; color: white">5</td>
+                <td class="text-start">Dhearara Widhiayu Rizky S.Farm.Apt.</td>
+                <td class="text-center">
+                 
+                  <a
+                    href="klaster1.html?program=1.10.1 Manajemen Farmasi&nama=Dhearara Widhiayu Rizky S.Farm.Apt.&nip=19950506 201903 2 005&img=dhearara.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Manajemen Labkesmas</td>
+                <td style="background: #2196f3; color: white">6</td>
+                <td class="text-start">TITIK SUWANTI, A.Md.</td>
+                <td class="text-center">
+                  
+                  <a
+                    href="klaster1.html?program=1.10.2 Manajemen Labkesmas&nama=TITIK SUWANTI, A.Md.&nip=19921104 202012 2 005&img=novita.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Manajemen Gawat Darurat</td>
+                <td style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Yanu Prastyo Amd.Kep</td>
+                <td class="text-center">
+                  
+                  <a
+                    href="klaster1.html?program=1.10.3 Manajemen Gawat Darurat&nama=Yanu Prastyo Amd.Kep&nip=198401202022211001&img=yanu.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Manajemen Pelayanan Kesehatan Gigi dan Mulut</td>
+                <td style="background: #2196f3; color: white">1</td>
+                <td class="text-start">drg. Dian Sita Ristiana </td>
+                <td class="text-center">
+            
+                  <a
+                    href="klaster1.html?program=1.10.5 Manajemen Pelayanan Kesehatan Gigi dan Mulut&nama=drg. Dian Sita Ristiana&nip=19821022 201001 2 014&img=diansita.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="programKlaster2"
+  tabindex="-1"
+  aria-labelledby="programKlaster2ModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="programKlaster2Label">
+          Tabel Program / Kegiatan
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <!-- Tabel isi dari langkah sebelumnya -->
+          <table
+            class="table table-bordered table-sm align-middle small text-center"
+          >
+            <thead class="table-light">
+              <tr>
+                <th class="text-start" width="500px">
+                  Program/Kegiatan Klaster 2
+                </th>
+                <th class="text-center text-warp" width="80px">
+                  Jumlah Indikator
+                </th>
+                <th class="text-start" width="250px">Penanggung Jawab</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-start">Kesehatan Ibu</td>
+                <td style="background: #2196f3; color: white">5</td>
+                <td class="text-start">Astutik, S.S.T., Bd</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Kes.Ibu&nama=Astutik, S.S.T., Bd&nip=19721011 199301 2 001&img=astutik.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Kesehatan Bayi & Anak</td>
+                <td style="background: #2196f3; color: white">8</td>
+                <td class="text-start">Yuyun Wahyu Rewtnowati,  S.Keb.Bd.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Kes.Bayi dan Anak&nama=Yuyun Wahyu Rewtnowati,  S.Keb.Bd.&nip=19780302 200801 2 017&img=yuyun.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Kesehatan Apras - AUS</td>
+                <td style="background: #2196f3; color: white">6</td>
+                <td class="text-start">Dewi Novitasari Amd.Keb</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Kes. Apras_AUS&nama=Dewi Novitasari Amd.Keb&nip=19791120 201905 2 001&img=dewinovita.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Gizi</td>
+                <td style="background: #2196f3; color: white">12</td>
+                <td class="text-start">Mujahidah Fidienia H,A.md.Gz</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=Gizi&nama=Mujahidah Fidienia H,A.md.Gz&nip=19950324 202203 2 005&img=mujahidah.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">KTAR</td>
+                <td style="background: #2196f3; color: white">4</td>
+                <td class="text-start">Ns.TANJUNG PANJI ASMORO, S.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=KTAR&nama=Ns.TANJUNG PANJI ASMORO, S.Kep&nip=19920626 202321 1 001&img=panji.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">PKG-Bayi</td>
+                <td style="background: #2196f3; color: white">1</td>
+                <td class="text-start">Yuyun Wahyu Rewtnowati,  S.Keb.Bd.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PKG-Bayi&nama=Yuyun Wahyu Rewtnowati,  S.Keb.Bd.&nip=19780302 200801 2 017&img=yuyun.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">PKG-Balita</td>
+                <td style="background: #2196f3; color: white">1</td>
+                <td class="text-start">Yuyun Wahyu Rewtnowati,  S.Keb.Bd.</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PKG-Balita&nama=Yuyun Wahyu Rewtnowati,  S.Keb.Bd.&nip=19780302 200801 2 017&img=yuyun.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">PKG-AUS</td>
+                <td style="background: #2196f3; color: white">1</td>
+                <td class="text-start">Dewi Novitasari Amd.Keb</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=PKG-AUS&nama=Dewi Novitasari Amd.Keb&nip=19791120 201905 2 001&img=dewinovita.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Program Imunisasi</td>
+                <td style="background: #2196f3; color: white">7</td>
+                <td class="text-start">Dwihayu Prastyandarti Amd.Kep</td>
+                <td>
+                  <a
+                    href="klasterlain.html?kategori=P2P Imunisasi&nama=Dwihayu Prastyandarti Amd.Kep&nip=198210202022212001&img=dwihayu.png"
+                    class="badge bg-success text-center decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </td>
+              </tr>
+              <tr colspan="2">
+                <td >
+
+                <p class="text-start fw-bold">Manajemen</p>
+              </td>
+              </tr>
+              <tr>
+                <td class="text-start">Jejaring berbasis satuan pendidikan - Napza</td>
+                <td class="text-center"style="background: #2196f3; color: white">1</td>
+                <td class="text-start">Yanu Prastyo Amd.Kep</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.8.2 Jejaring berbasis satuan pendidikan1&nama=Yanu Prastyo Amd.Kep&nip=198401202022211001&img=yanu.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td class="text-start">Jejaring berbasis satuan pendidikan - Kebugaran</td>
+                <td class="text-center" style="background: #2196f3; color: white">1</td>
+                <td class="text-start">Mubinah, S.S.T.Keb.</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.8.2 Jejaring berbasis satuan pendidikan2&nama=Mubinah, S.S.T.Keb.&nip=19701220 199102 2 002"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <!-- new -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Klaster Manajemen -->
+<div
+  class="modal fade"
+  id="manajemenModal"
+  tabindex="-1"
+  aria-labelledby="manajemenModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="manajemenModalLabel">
+          Tabel Klaster Manajemen
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm small">
+            <thead class="table-light">
+              <tr>
+                <th style="min-width: 200px">Klaster Manajemen</th>
+                <th width="100px" class="text-center" >Jumlah Indikator</th>
+                <th width="250px">Penanggung Jawab</th>
+                <th class="text-center text-warp" >
+                  <a
+                    href="manajemen.html"
+                    class="badge bg-primary decoration-none ms-2"
+                    >Lihat Data</a
+                  >
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Manajemen Inti Puskesmas</td>
+                <td style="background: #2196f3; color: white" class="text-center">6</td>
+                <td class="text-start">Hayuning Dewi Octavianti S.KM</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.1.Manajemen Inti Puskesmas&nama=Hayuning Dewi Octavianti S.KM&nip=19801003 200604 2 022&img=hayuning.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Manajemen Arsip</td>
+                <td class="text-center" style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Hayuning Dewi Octavianti S.KM</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.2. Manajemen Arsip&nama=Hayuning Dewi Octavianti S.KM&nip=19801003 200604 2 022&img=hayuning.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Manajemen SDM</td>
+                <td  class="text-center"style="background: #2196f3; color: white">5</td>
+                <td class="text-start">Hayuning Dewi Octavianti S.KM</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.3. Manajemen Sumber Daya Manusia&nama=Hayuning Dewi Octavianti S.KM&nip=19801003 200604 2 022=hayuning.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Manajemen Sarpras</td>
+                <td class="text-center" style="background: #2196f3; color: white">5</td>
+                <td class="text-start">Dewi Andrika Asmara S.Gz</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.4.1 Manajemen Sarana dan Prasarana&nama=Dewi Andrika Asmara S.Gz&nip=19860807 200903 2 013&img=dewiandrika.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Manajemen Perbekalan Kesehatan</td>
+                <td class="text-center" style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Dhearara Widhiayu Rizky S.Farm.Apt</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.4.2 Manajemen Perbekalan Kesehatan&nama=Dhearara Widhiayu Rizky S.Farm.Apt&nip=19950506 201903 2 005&img=dhearara.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Manajemen Mutu</td>
+                <td class="text-center" style="background: #2196f3; color: white">7</td>
+                <td class="text-start">dr. Tatik Sukaryati</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.5.1 Manajemen Mutu&nip=19710611 200212 2 006&img=drtatik.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>PPI</td>
+                <td  class="text-center" style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Nurkolis S.Kep.Ners</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.5.2 Pencegahan dan Pengendalian Infeksi (PPI)&nama=Nurkolis S.Kep.Ners&nip=19780611 199803 1 005&img=nurkolis.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Manajemen Risiko</td>
+                <td class="text-center" style="background: #2196f3; color: white">4</td>
+                <td class="text-start">Luruh Setyo Resmi S.Gz</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.5.3 Manajemen Risiko"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>MFK</td>
+                <td class="text-center" style="background: #2196f3; color: white">4</td>
+                <td class="text-start">Rudy Kurniawan A.Md.K.L</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.5.4 Manajemen Fasilitas dan Keselamatan (MFK)"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>K3</td>
+                <td class="text-center" style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Shevi Dwi Ardhyani S.KM</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.5.5 Keselamatan dan Kesehatan Kerja (K3)&nama=Shevi Dwi Ardhyani S.KM&nip=19930916 202012 2 004&img=shevi.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Audit Internal</td>
+                <td class="text-center" style="background: #2196f3; color: white">4</td>
+                <td class="text-start">Dhearara Widhiayu Rizky S.Farm.Apt</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.5.6 Audit Internal&nama=Dhearara Widhiayu Rizky S.Farm.Apt&nip=19950506 201903 2 005&img=dhearara.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Keuangan & Aset</td>
+                <td class="text-center"  style="background: #2196f3; color: white">5</td>
+                <td class="text-start">Rizqi Ery Isyadi .Amd</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.6. Manajemen Keuangan dan Aset atau Barang Milik Daerah&nama=Rizqi Ery Isyadi .Amd&nip=19960530 202203 1 005&img="
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Sistem Informasi Digital</td>
+                <td class="text-center" style="background: #2196f3; color: white">3</td>
+                <td class="text-start">Faqih Amrulloh Husein Amd.Kes</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.7. Manajemen Sistem Informasi Digital&nama=Faqih Amrulloh Husein Amd.Kes&nip=19990610 202203 1 003&img=faqih.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>Keselamatan dan Kesehatan Kerja (K3) dan Olahraga</td>
+                <td class="text-center"style="background: #2196f3; color: white">4</td>
+                <td class="text-start">Mubinah, S.S.T.Keb.</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.8.1.2 Keselamatan dan Kesehatan Kerja (K3)&nama=Mubinah, S.S.T.Keb.&nip=19701220 199102 2 002&img=mubinah.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              
+             
+              <!-- -->
+              <tr>
+                <td>Jejaring Lintas Sektor</td>
+                <td class="text-center"style="background: #2196f3; color: white">1</td>
+                <td class="text-start">Farhani Putri M S.KM</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.8.5 Jejaring Lintas Sektor&nama=Farhani Putri M S.KM&nip=19880410 202203 2 002&img=farhani.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Manajemen Pemberdayaan Masyarakat</td>
+                <td class="text-center"style="background: #2196f3; color: white">16</td>
+                <td class="text-start">Shevi Dwi Ardhyani S.KM</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.9. Manajemen Pemberdayaan Masyarakat&nama=Shevi Dwi Ardhyani S.KM&nip=19930916 202012 2 004&img=shevi.png"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <!--  -->
+              <tr>
+                <td>Manajemen Rawat Inap</td>
+                <td class="text-center"style="background: #fd1a1a; color: white">3</td>
+                <td class="text-start">-</td>
+                <td class="text-center">
+                  <span class="fw-bold"></span>
+                  <a
+                    href="klaster1.html?program=1.10.4 Manajemen Rawat Inap"
+                    class="badge bg-success text-center text-decoration-none ms-2"
+                  >
+                    Lihat Data
+                  </a>
+                </td>
+              </tr>
+              <!--  -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Card 01 -->
+<div
+  class="modal fade"
+  id="modalCard1"
+  tabindex="-1"
+  aria-labelledby="modalCard1Label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="modalCard1Label">
+          Indikator Kinerja Utama
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body small">
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm table-hover align-middle">
+            <thead class="table-success text-center">
+              <tr>
+                <th style="width: 5%">No</th>
+                <th>Indikator</th>
+                <th>Kelompok</th>
+                <th>Penanggung Jawab</th>
+                <th style="width: 15%">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Pemenuhan obat essensial sesuai standar</td>
+                <td class="text-center">IMPP</td>
+                <td >Dhearara whidiayu Rizky S.Farm, Apt</td>
+                <td class="text-center"><a href="iku.html?kategori=IMPP" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Kepatuhan identifikasi pasien</td>
+                
+                <td class="text-center">INM</td>
+                <td >Novita Anggraeni Am.Ak</td>
+                <td class="text-center"><a href="iku.html?kategori=INM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Kepatuhan penggunaan APD</td>
+                <td class="text-center">INM</td>
+                <td >Linda Dwirahayu Setyorini A.Md.Kep</td>
+                <td class="text-center"><a href="iku.html?kategori=INM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Kepatuhan kebersihan tangan (KKT)</td>
+                <td class="text-center">INM</td>
+                <td >Linda Dwirahayu Setyorini A.Md.Kep</td>
+                <td class="text-center"><a href="iku.html?kategori=INM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              
+              <tr><tr>
+                <td>5</td>
+                <td>Keberhasilan pengobatan TB (SO)</td>
+                <td class="text-center">INM</td>
+                <td>Nurkolis S.kep Ners.</td>
+                <td class="text-center"><a href="iku.html?kategori=INM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Survei Kepuasan Masyarakat</td>
+                <td class="text-center">INM</td>
+                <td>Marjianto Amd.Gz</td>
+                <td class="text-center"><a href="iku.html?kategori=INM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Tindak Lanjut Pengaduan Masyarakat</td>
+                <td class="text-center">INM</td>
+                <td>Farhani Putri M SKM</td>
+                <td class="text-center"><a href="iku.html?kategori=INM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>Pelayanan Ibu Hamil</td>
+                <td class="text-center">SPM</td>
+                <td>Astutik, S.S.T., Bd</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>Pelayanan Kesehatan Ibu Bersalin</td>
+                <td class="text-center">SPM</td>
+                <td>Astutik, S.S.T., Bd</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>Pelayanan Kesehatan Bayi Baru Lahir</td>
+                <td class="text-center">SPM</td>
+                <td>Yuyun Wahyu Rewtnowati,  S.Keb.Bd.</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td>Pelayanan Kesehatan Balita</td>
+                <td class="text-center">SPM</td>
+                 <td>Yuyun Wahyu Rewtnowati,  S.Keb.Bd.</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td>Pelayanan Kesehatan pada Usia Pendidikan Dasar</td>
+                <td class="text-center">SPM</td>
+                 <td>Dewi Novitasari Amd.Keb</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td>Pelayanan Kesehatan pada Usia Produktif</td>
+                <td class="text-center">SPM</td>
+                 <td>Bekti Kusumadewi S.Kep.Ners</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>14</td>
+                <td>Pelayanan Kesehatan pada Usia Lanjut (usia ≥ 60 tahun)</td>
+                <td class="text-center">SPM</td>
+                 <td>Dina Aninggarwati Amd.Kep</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>15</td>
+                <td>Pelayanan Kesehatan Penderita Hipertensi</td>
+                <td class="text-center">SPM</td>
+                 <td>Bekti Kusumadewi S.Kep.Ners</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td>Pelayanan Kesehatan Penderita Diabetes Melitus</td>
+                <td class="text-center">SPM</td>
+                <td>Bekti Kusumadewi S.Kep.Ners</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>17</td>
+                <td>Pelayanan Kesehatan Orang dengan Gangguan Jiwa Berat</td>
+                <td class="text-center">SPM</td>
+                <td>Agus Wahyono Amd.Kep</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>18</td>
+                <td>Pelayanan Kesehatan orang Dengan terduga TBC</td>
+                <td class="text-center">SPM</td>
+                <td>Nurkolis S.Kep Ners</td>
+                <td class="text-center" ><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>19</td>
+                <td>Pelayanan Kesehatan orang dengan risiko Terinfeksi HIV</td>
+                <td class="text-center">SPM</td>
+                <td>Wahyu Puji Lestari Amd.Keb</td>
+                <td class="text-center"><a href="iku.html?kategori=SPM" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+              <tr>
+                <td>20</td>
+                <td >Nilai Survey Persepsi Anti Korupsi (SPAK) ≥ 3.6</td>
+                <td class="text-center">PZI</td>
+                <td>Marjianto Amd.Gz</td>
+                <td class="text-center"><a href="iku.html?kategori=PZI" class="badge bg-success text-center">Lihat Data</a></td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      <div class="modal-footer">
+        <a
+          href="https://docs.google.com/spreadsheets/d/1h9hDvcJubZ3NL2bd8HltJeguHLE8rAruiNkncnTRAnk/edit?usp=sharing"
+          class="btn btn-warning btn-sm shadow"
+          target="_blank"
+          >Lihat IKU</a
+        >
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

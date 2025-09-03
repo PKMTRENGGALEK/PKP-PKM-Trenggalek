@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Klaster</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Select2 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        background: #f0f4f5;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .logo {
+        max-height: 100px;
+      }
+
+      .table-responsive {
+        max-height: 75vh;
+        overflow: auto;
+        position: relative;
+      }
+
+      table {
+        width: max-content;
+        border-collapse: collapse;
+      }
+
+      .table th,
+      .table td {
+        white-space: nowrap;
+        vertical-align: middle;
+        font-size: 0.72rem;
+      }
+
+      /* Sticky header baris 1 */
+      .table thead tr:nth-child(1) th {
+        position: sticky;
+        top: 0;
+        background-color: #198754 !important;
+        color: white !important;
+        z-index: 3;
+      }
+
+      /* Sticky header baris 2 (bulan) */
+      .table thead tr:nth-child(2) th {
+        position: sticky;
+        top: 52px; /* Sesuaikan sesuai tinggi header baris 1 */
+        background-color: #198754 !important;
+        color: white !important;
+        z-index: 2;
+      }
+
+      .bulan-input {
+        width: 45px;
+        font-size: 0.72rem;
+        text-align: center;
+      }
+
+      .updated {
+        background-color: #d1e7dd !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid py-4" style="max-width: 95%; margin: auto">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <!-- <img
+          src="https://puskesmastrenggalek.github.io/SIP/assets/pkm.png"
+          alt="Logo"
+          style="max-height: 80px"
+          class="mb-2"
+        /> -->
+            <h4 class="fw-bold mb-0">Detail Program Klaster</h4>
+          </div>
+
+          <div class="d-flex justify-content-start gap-2 mb-3">
+            <a href="home.html" class="btn btn-outline-success shadow-sm">
+              ⬅️ Kembali
+            </a>
+            <a
+              id="analisaLink"
+              href="#"
+              class="btn btn-outline-danger shadow-sm"
+            >
+              Analisa
+            </a>
+          </div>
+
+          <div class="text-end mt-3 mb-2">
+            <button
+              id="btnExportExcel"
+              class="btn btn-outline-primary shadow-sm mb-2"
+            >
+              📥 Export ke Excel
+            </button>
+            <button
+              id="btnSimpanSemua"
+              class="btn btn-outline-success ms-2 shadow-sm mb-2"
+            >
+              💾 Simpan Semua Perubahan
+            </button>
+          </div>
+
+          <div class="table-responsive" style="font-size: 11px">
+            <table
+              class="table table-bordered table-striped align-middle"
+              id="programTable"
+            >
+              <thead class="table-success text-center align-middle">
+                <tr>
+                  <th rowspan="2">No</th>
+                  <th rowspan="2" width="60px">Klaster</th>
+                  <th rowspan="2" style="width: 80px">Kegiatan</th>
+                  <th rowspan="2" width="90px">Indikator Kerja</th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Target Tahun 2025 (dalam %)
+                  </th>
+                  <th rowspan="2">Satuan Sasaran</th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Total Sasaran
+                  </th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Target Sasaran
+                  </th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Pencapaian (dalam satuan sasaran)
+                  </th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    % Cakupan Rill
+                  </th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Ketercapaian Target Tahun N
+                  </th>
+                  <th colspan="12">Capaian Kegiatan Program</th>
+                  <!-- <th rowspan="2">Analisa Akar Penyebab Masalah</th>
+                  <th rowspan="2">Rencana Tindak lanjut</th> -->
+                </tr>
+                <tr class="text-center">
+                  <th>Jan</th>
+                  <th>Feb</th>
+                  <th>Mar</th>
+                  <th>Apr</th>
+                  <th>Mei</th>
+                  <th>Juni</th>
+                  <th>Juli</th>
+                  <th>Agst</th>
+                  <th>Sept</th>
+                  <th>Okt</th>
+                  <th>Nov</th>
+                  <th>Des</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <tr>
+                  <td colspan="25" class="text-center">Memuat data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+      const endpoint =
+        "https://script.google.com/macros/s/AKfycbyXUb1qcb9YTr8nv4C1Ad2p2ifqosTbRBF0B-rg8bb1f2Tc9hy4LMwrIaZia1YIkPMD6w/exec";
+      let rows = []; // ✅ Tambahkan ini
+      const tableBody = document.getElementById("tableBody");
+
+      const bulanKeys = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agst",
+        "Sept",
+        "Okt",
+        "Nov",
+        "Des",
+      ];
+
+      function getQueryParam(param) {
+        return new URLSearchParams(window.location.search).get(param);
+      }
+
+      function renderEditableCell(bulan, id, value) {
+        return `
+          <td class="text-center">
+            <input type="text" class="form-control form-control-sm bulan-input"
+              data-bulan="${bulan}" data-id="${id}" data-old="${value || ""}"
+              value="${value || ""}" />
+          </td>`;
+      }
+
+      function bindInputEvents() {
+        $("#btnSimpanSemua")
+          .off("click")
+          .on("click", function () {
+            const inputs = document.querySelectorAll(".bulan-input");
+            const updates = [];
+
+            inputs.forEach((input) => {
+              const nilaiBaru = input.value.trim();
+              const nilaiLama = input.dataset.old;
+              const id = input.dataset.id;
+              const field = input.dataset.field || input.dataset.bulan;
+
+              if (nilaiBaru !== nilaiLama && /^\d+$/.test(nilaiBaru)) {
+                updates.push({
+                  id,
+                  field,
+                  value: nilaiBaru,
+                  input,
+                });
+              }
+            });
+
+            if (updates.length === 0) {
+              Swal.fire(
+                "Tidak ada perubahan",
+                "Silakan ubah nilai terlebih dahulu.",
+                "info"
+              );
+              return;
+            }
+
+            Swal.fire({
+              title: "Menyimpan...",
+              text: "Menyimpan semua perubahan...",
+              allowOutsideClick: false,
+              didOpen: () => Swal.showLoading(),
+            });
+
+            let successCount = 0;
+
+            const updateNext = () => {
+              if (updates.length === 0) {
+                Swal.close();
+                Swal.fire({
+                  icon: "success",
+                  title: `${successCount} data berhasil disimpan`,
+                  showConfirmButton: false,
+                  timer: 1500,
+                }).then(() => {
+                  location.reload(); // reload halaman setelah notifikasi
+                });
+                return;
+              }
+
+              const { id, field, value, input } = updates.shift();
+
+              const url = `${endpoint}?action=update&id=${encodeURIComponent(
+                id
+              )}&field=${encodeURIComponent(field)}&nilai=${encodeURIComponent(
+                value
+              )}`;
+
+              fetch(url)
+                .then((res) => res.json())
+                .then((res) => {
+                  if (res.success) {
+                    input.dataset.old = value;
+                    input.classList.add("updated");
+                    successCount++;
+
+                    const row = document.querySelector(`tr[data-id="${id}"]`);
+                    if (
+                      row &&
+                      (field === "Total Sasaran" || bulanKeys.includes(field))
+                    ) {
+                      updateDerivedColumns(row);
+                    }
+                  } else {
+                    input.value = input.dataset.old;
+                  }
+                })
+                .catch(() => {
+                  input.value = input.dataset.old;
+                })
+                .finally(() => {
+                  updateNext();
+                });
+            };
+
+            updateNext();
+          });
+      }
+
+      function updateDerivedColumns(row) {
+        const bulanInputs = row.querySelectorAll("input[data-bulan]");
+        let totalBulan = 0;
+
+        bulanInputs.forEach((input) => {
+          const val = parseInt(input.value);
+          if (!isNaN(val)) totalBulan += val;
+        });
+
+        const totalSasaranInput = row.querySelector(
+          'input[data-field="Total Sasaran"]'
+        );
+        const totalSasaran = totalSasaranInput
+          ? parseInt(totalSasaranInput.value)
+          : 0;
+
+        const cakupanCell = row.cells[9];
+        const capaianCell = row.cells[10];
+
+        if (cakupanCell && totalSasaran) {
+          const cakupan = ((totalBulan / totalSasaran) * 100).toFixed(2) + "%";
+          cakupanCell.textContent = cakupan;
+        }
+
+        if (capaianCell && totalSasaran) {
+          const targetTahun = parseFloat(
+            row.cells[4].textContent.replace("%", "")
+          );
+          const realisasi = (totalBulan / totalSasaran) * 100;
+          const status =
+            realisasi >= targetTahun ? "Tercapai" : "Belum Tercapai";
+          capaianCell.textContent = status;
+        }
+      }
+
+      function renderTable(rows, selectedKategori) {
+        const fragment = document.createDocumentFragment();
+
+        const grouped = {};
+        rows.forEach((row) => {
+          const induk = row["Induk"] || "Lainnya";
+          const sub = row["Sub"] || "Lainnya";
+          if (!grouped[induk]) grouped[induk] = {};
+          if (!grouped[induk][sub]) grouped[induk][sub] = [];
+          grouped[induk][sub].push(row);
+        });
+
+        let index = 1;
+
+        for (const induk in grouped) {
+          const indukRow = document.createElement("tr");
+          indukRow.style.backgroundColor = "#f8d7da";
+          indukRow.innerHTML = `<td colspan="30" class="fw-bold text-danger">${induk}</td>`;
+          fragment.appendChild(indukRow);
+
+          for (const sub in grouped[induk]) {
+            const rows = grouped[induk][sub];
+
+            const indikatorButuhCalc = rows.some((row) =>
+              [
+                "Penggunaan antibiotika pada penatalaksanaan ISPA non pneumonia",
+                "Penggunaan antibiotika pada penatalaksanaan kasus diare non spesifik",
+                "Penggunaan Injeksi pada Myalgia",
+                "Rerata item obat yang diresepkan",
+                "Pengkajian resep,pelayanan resep dan pemberian informasi obat",
+                "Konseling",
+                "Pelayanan Informasi Obat",
+                "Edukasi dan Pemberdayaan masyarakat tentang obat pada Gerakan masyarakat cerdas menggunakan obat",
+              ].includes((row["Indikator Kerja"] || "").trim())
+            );
+
+            const indikatorGigi = rows.some((row) =>
+              [
+                "Persentase pasien yang menderita karies yang berkunjung ke Puskesmas mendapatkan tatalaksana sesuai prosedur.",
+                "Persentase pasien penyakit periodontal (periodontitis dan ginggivitis) yang berkunjung ke Puskesmas mendapatkan tatalaksana sesuai prosedur.",
+                "Persentase kunjungan pasien usia 40-59 tahun perokok di Puskesmas yang mendapatkan skrining untuk penyakit kanker mulut",
+              ].includes((row["Indikator Kerja"] || "").trim())
+            );
+
+            const indikatorUGD = rows.some((row) =>
+              [
+                "Persentase tatalaksana Kegawatdaruratan kepada pasien dengan memberikan penanganan segera yang tepat dan sesuai Alur Kegawatdaruratan. Menerapkan TRIAGE (Alur registrasi, Inform Concent/pencatatan dan pelaporan IGD), tatalaksana sesuai klaster, tatalaksana kegawatdaruratan medis khusus",
+                "Pasien gawat darurat yang perlu dirujuk ke FKRTL diperiksa dan distabilisasi terlebih dahulu sesuai dengan kemampuan Puskesmas dan dipastikan dapat diterima di FKRTL sesuai dengan kebijakan, pedoman dan prosedur yang ditetapkan",
+                "Persentase kelengkapan pengisian informed consent pasien UGD dalam waktu24 jam",
+              ].includes((row["Indikator Kerja"] || "").trim())
+            );
+
+            const indikatorReproduksi = rows.some((row) =>
+              [
+                "KB aktif (Contraceptive Prevalence Rate/ CPR)",
+                "PUS dengan 4 T ber KB",
+              ].includes((row["Indikator Kerja"] || "").trim())
+            );
+
+            const subRow = document.createElement("tr");
+            subRow.style.backgroundColor = "#cff4fc";
+            subRow.innerHTML = `<td colspan="30" class="fw-semibold text-primary ps-3">${sub}</td>`;
+            fragment.appendChild(subRow);
+
+            // Link Prioritas: Rasional Obat > UGD > Gigi > Reproduksi
+            let link = null;
+            if (indikatorButuhCalc) {
+              link =
+                "https://docs.google.com/spreadsheets/d/18N0l1rXg55lvZUStOvu9h4VVxuMuRTU_coRT6tVV004/edit?usp=sharing";
+            } else if (indikatorUGD) {
+              link =
+                "https://docs.google.com/spreadsheets/d/1GPKNAx4JYSI99Nm0sMRCvopQl-fvPIH16VDyG_ufn-Y/edit?usp=sharing";
+            } else if (indikatorGigi) {
+              link =
+                "https://docs.google.com/spreadsheets/d/1BDsGEIMljBQkHl0JLn86Oe4RPNZTdMdJp-xKe69wGNU/edit?usp=sharing";
+            } else if (indikatorReproduksi) {
+              link =
+                "https://docs.google.com/spreadsheets/d/1x23OEaftdvozy5wzAr3FGiK8GBRjgfcQfvFIoWdmrRE/edit?usp=sharing";
+            }
+
+            if (link) {
+              const calcRow = document.createElement("tr");
+              calcRow.innerHTML = `
+        <td colspan="3"></td>
+        <td>
+          <a href="${link}" target="_blank" class="btn btn-warning btn-sm py-0 px-2 ms-0 shadow">
+            <i class="bi bi-calculator"></i> Kalkulator
+          </a>
+        </td>
+        <td colspan="26"></td>
+      `;
+              fragment.appendChild(calcRow);
+            }
+
+            // Baris Data
+            for (const row of grouped[induk][sub]) {
+              const rowId = row["No"];
+              const tr = document.createElement("tr");
+              tr.dataset.id = rowId;
+
+              let html = `
+        <td>${index++}</td>
+        <td>${row["Klaster"] || "-"}</td>
+        <td width="60px">${row["Kegiatan"] || "-"}</td>
+        <td>
+          <div class="d-flex justify-content-between align-items-start flex-column h-100">
+            <div>${row["Indikator Kerja"] || "-"}</div>
+            <div class="mt-1 ms-auto">
+              <button class="btn btn-xs btn-outline-secondary btn-sm py-0 px-1 me-1 show-info-btn" data-type="DO" data-id="${
+                row["No"]
+              }">DO</button>
+              <button class="btn btn-xs btn-outline-info btn-sm py-0 px-1 me-1 show-info-btn" data-type="Cara Penghitungan" data-id="${
+                row["No"]
+              }">Cara</button>
+            </div>
+          </div>
+        </td>
+        <td>${row["Target 2025"] || "-"}</td>
+        <td>${row["Satuan Sasaran"] || "-"}</td>
+        <td class="text-center">
+          <input type="text" class="form-control form-control-sm bulan-input"
+            data-field="Total Sasaran" data-id="${rowId}" data-old="${
+                row["Total Sasaran"] || ""
+              }"
+            value="${row["Total Sasaran"] || ""}" />
+        </td>
+        <td>${row["Target Sasaran"] || "-"}</td>
+        <td>${
+          row["Pencapaian (dalam satuan sasaran)"]
+            ? Math.round(parseFloat(row["Pencapaian (dalam satuan sasaran)"]))
+            : "0"
+        }</td>
+
+        <td>${
+          row["% Cakupan Rill"]
+            ? parseFloat(row["% Cakupan Rill"]).toFixed(2)
+            : "-"
+        }</td>
+        <td>${
+          row["Ketercapaian Target Tahun N"]
+            ? parseFloat(row["Ketercapaian Target Tahun N"]).toFixed(2)
+            : "-"
+        }</td>
+      `;
+
+              for (const bulan of bulanKeys) {
+                html += renderEditableCell(bulan, rowId, row[bulan]);
+              }
+
+              tr.innerHTML = html;
+              fragment.appendChild(tr);
+            }
+          }
+        }
+
+        tableBody.innerHTML = "";
+        tableBody.appendChild(fragment);
+        bindInputEvents();
+      }
+
+      function loadData() {
+        const selectedFromURL = getQueryParam("kategori");
+
+        if (!selectedFromURL) {
+          tableBody.innerHTML = `<tr><td colspan="25" class="text-center text-muted">Parameter <code>?kategori=</code> diperlukan.</td></tr>`;
+          return;
+        }
+
+        tableBody.innerHTML = `
+          <tr><td colspan="25" class="text-center py-4">
+            <div class="spinner-border text-success" role="status"></div>
+            <div class="mt-2 text-success fw-semibold">Memuat data...</div>
+          </td></tr>`;
+
+        fetch(endpoint)
+          .then((res) => res.json())
+          .then((data) => {
+            rows = data; // ✅ simpan semua data
+            const filtered = data.filter(
+              (item) => item.kategori === selectedFromURL
+            );
+
+            if (filtered.length === 0) {
+              tableBody.innerHTML = `<tr><td colspan="25" class="text-danger text-center">Kategori <strong>${selectedFromURL}</strong> tidak ditemukan.</td></tr>`;
+              return;
+            }
+
+            renderTable(filtered, selectedFromURL);
+            // Tambahkan ini:
+            const indikatorTertentu = [
+              "Penggunaan antibiotika pada penatalaksanaan ISPA non pneumonia",
+              "Penggunaan antibiotika pada penatalaksanaan kasus diare non spesifik",
+              "Penggunaan Injeksi pada Myalgia",
+              "Rerata item obat yang diresepkan",
+              "Pengkajian resep,pelayanan resep dan pemberian informasi obat",
+              "Konseling",
+              "Pelayanan Informasi Obat",
+              "Edukasi dan Pemberdayaan masyarakat tentang obat pada Gerakan masyarakat cerdas menggunakan obat",
+            ];
+
+            const semuaIndikatorMasukList = filtered.every((item) =>
+              indikatorTertentu.includes((item["Indikator Kerja"] || "").trim())
+            );
+
+            document.getElementById("btnSimpanSemua").style.display =
+              semuaIndikatorMasukList ? "none" : "inline-block";
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+            tableBody.innerHTML = `<tr><td colspan="25" class="text-danger text-center">Gagal memuat data.</td></tr>`;
+          });
+      }
+      const kategoriParam = getQueryParam("kategori");
+      const namaParam = getQueryParam("nama");
+      const nip = getQueryParam("nip");
+      const imgParam = getQueryParam("img"); // ✅ ambil parameter img
+
+      if (kategoriParam && namaParam && nip && imgParam) {
+        document.getElementById(
+          "analisaLink"
+        ).href = `analisa_program.html?kategori=${encodeURIComponent(
+          kategoriParam
+        )}&nama=${encodeURIComponent(namaParam)}&nip=${encodeURIComponent(
+          nip
+        )}&img=${encodeURIComponent(imgParam)}`; // ✅ tambahkan img ke URL
+      }
+
+      // Load data on page load
+      loadData();
+    </script>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="infoModal"
+      tabindex="-1"
+      aria-labelledby="infoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="infoModalLabel">Info</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Tutup"
+            ></button>
+          </div>
+          <div class="modal-body" id="modalContent">...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT: letakkan di bawah semua konten -->
+    <script>
+      document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("show-info-btn")) {
+          const type = e.target.dataset.type;
+          const id = e.target.dataset.id;
+
+          const row = rows.find((r) => String(r["No"]) === String(id)); // <= Perbaikan disini
+
+          if (!row) return;
+
+          const content = type === "DO" ? row["DO"] : row["Cara Penghitungan"];
+          document.getElementById("modalContent").innerHTML =
+            content || "<em>Belum ada data</em>";
+          document.getElementById(
+            "infoModalLabel"
+          ).textContent = `${type} - No ${id}`;
+
+          const modal = new bootstrap.Modal(
+            document.getElementById("infoModal")
+          );
+          modal.show();
+        }
+      });
+    </script>
+    <script>
+      document
+        .getElementById("btnExportExcel")
+        .addEventListener("click", function () {
+          // Clone tabel agar tidak mengubah tampilan asli
+          const tableClone = document
+            .getElementById("programTable")
+            .cloneNode(true);
+
+          // Ganti semua <input> dengan nilai text
+          tableClone.querySelectorAll("input").forEach((input) => {
+            const td = input.parentElement;
+            td.textContent = input.value; // pakai value yang ada sekarang
+          });
+
+          // Convert clone tabel ke worksheet Excel
+          const wb = XLSX.utils.table_to_book(tableClone, {
+            sheet: "Data Program",
+          });
+
+          // Simpan file Excel
+          XLSX.writeFile(
+            wb,
+            `Data_Program_${new Date().toISOString().slice(0, 10)}.xlsx`
+          );
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Klaster</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Select2 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="klasterkusus.css">
+  </head>
+  <body>
+    <div class="container-fluid py-4" style="max-width: 95%; margin: auto">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <!-- <img
+          src="https://puskesmastrenggalek.github.io/SIP/assets/pkm.png"
+          alt="Logo"
+          style="max-height: 80px"
+          class="mb-2"
+        /> -->
+            <h4 class="fw-bold mb-0">Detail Program Klaster</h4>
+          </div>
+
+          <div class="d-flex justify-content-start gap-2 mb-3">
+            <a href="home.html" class="btn btn-outline-success shadow-sm">
+              ⬅️ Kembali
+            </a>
+            <a
+              id="analisaLink"
+              href="#"
+              class="btn btn-outline-danger shadow-sm"
+            >
+              Analisa
+            </a>
+          </div>
+
+          <div class="text-end mt-3 mb-2">
+            <button
+              id="btnExportExcel"
+              class="btn btn-outline-primary shadow-sm mb-2"
+            >
+              📥 Export ke Excel
+            </button>
+            <button
+              id="btnSimpanSemua"
+              class="btn btn-outline-success ms-2 shadow-sm mb-2"
+            >
+              💾 Simpan Semua Perubahan
+            </button>
+          </div>
+          <!-- Filter Bulan -->
+            <div class="d-flex align-items-center gap-2 mb-3">
+            <label for="filterBulan" class="fw-bold mb-0">📅 Filter Bulan:</label>
+            <select id="filterBulan" class="form-select form-select-sm" style="width: 200px;">
+                <option value="all">Tampilkan Semua</option>
+                <option value="Jan">Januari</option>
+                <option value="Feb">Februari</option>
+                <option value="Mar">Maret</option>
+                <option value="Apr">April</option>
+                <option value="Mei">Mei</option>
+                <option value="Juni">Juni</option>
+                <option value="Juli">Juli</option>
+                <option value="Agst">Agustus</option>
+                <option value="Sept">September</option>
+                <option value="Okt">Oktober</option>
+                <option value="Nov">November</option>
+                <option value="Des">Desember</option>
+            </select>
+            </div>
+
+          <div class="table-responsive" style="font-size: 11px">
+            <table
+              class="table table-bordered table-striped align-middle"
+              id="programTable"
+            >
+              <thead class="table-success text-center align-middle">
+                <tr>
+                  <th rowspan="2">No</th>
+                  <th rowspan="2" width="60px">Klaster</th>
+                  <th rowspan="2" style="width: 80px">Kegiatan</th>
+                  <th rowspan="2" width="90px">Indikator Kerja</th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Target Tahun 2025 (dalam %)
+                  </th>
+                  <th rowspan="2">Satuan Sasaran</th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Total Sasaran
+                  </th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Target Sasaran
+                  </th>
+                 <th id="thPencapaian" rowspan="2" width="80px" class="text-wrap">
+                   Pencapaian (dalam satuan sasaran)
+                 </th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    % Cakupan Rill
+                  </th>
+                  <th rowspan="2" width="80px" class="text-wrap">
+                    Ketercapaian Target Tahun N
+                  </th>
+                  <th colspan="12">Capaian Kegiatan Program</th>
+                  <!-- <th rowspan="2">Analisa Akar Penyebab Masalah</th>
+                  <th rowspan="2">Rencana Tindak lanjut</th> -->
+                </tr>
+                <tr class="text-center">
+                  <th>Jan</th>
+                  <th>Feb</th>
+                  <th>Mar</th>
+                  <th>Apr</th>
+                  <th>Mei</th>
+                  <th>Juni</th>
+                  <th>Juli</th>
+                  <th>Agst</th>
+                  <th>Sept</th>
+                  <th>Okt</th>
+                  <th>Nov</th>
+                  <th>Des</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <tr>
+                  <td colspan="25" class="text-center">Memuat data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+   <script>
+const endpoint =
+  "https://script.google.com/macros/s/AKfycbyXUb1qcb9YTr8nv4C1Ad2p2ifqosTbRBF0B-rg8bb1f2Tc9hy4LMwrIaZia1YIkPMD6w/exec";
+
+let rows = [];
+let bulanDipilih = "all"; // default
+
+const tableBody = document.getElementById("tableBody");
+
+const bulanKeys = [
+  "Jan", "Feb", "Mar", "Apr", "Mei", "Juni", "Juli", "Agst", "Sept", "Okt", "Nov", "Des"
+];
+
+const bulanLabel = {
+  "Jan": "Januari",
+  "Feb": "Februari",
+  "Mar": "Maret",
+  "Apr": "April",
+  "Mei": "Mei",
+  "Juni": "Juni",
+  "Juli": "Juli",
+  "Agst": "Agustus",
+  "Sept": "September",
+  "Okt": "Oktober",
+  "Nov": "November",
+  "Des": "Desember",
+  "all": ""
+};
+
+// Ambil parameter dari URL
+function getQueryParam(param) {
+  return new URLSearchParams(window.location.search).get(param);
+}
+
+// Fungsi hitung pencapaian
+function getPencapaianValue(row) {
+  const indikatorLab = "Kesesuaian fungsi penyelenggaraan laboratorium kesehatan masyarakat dengan satandar";
+  const indikator = (row["Indikator Kerja"] || "").trim();
+
+  if (indikator === indikatorLab && bulanDipilih !== "all") {
+    const nilaiBulan = parseFloat(row[bulanDipilih]) || 0;
+    const targetSasaran = parseFloat(row["Target Sasaran"]) || 0;
+    if (targetSasaran > 0) {
+      return (nilaiBulan / targetSasaran * 100).toFixed(2);
+    }
+    return "0";
+  }
+
+  return row["Pencapaian (dalam satuan sasaran)"]
+    ? Math.round(parseFloat(row["Pencapaian (dalam satuan sasaran)"]))
+    : "0";
+}
+
+// Render input bulan
+function renderEditableCell(bulan, id, value) {
+  return `
+    <td class="text-center">
+      <input type="text" class="form-control form-control-sm bulan-input"
+        data-bulan="${bulan}" data-id="${id}" data-old="${value || ""}"
+        value="${value || ""}" />
+    </td>`;
+}
+
+// Event saat bulan diganti
+document.getElementById("filterBulan").addEventListener("change", function () {
+  bulanDipilih = this.value;
+  const th = document.getElementById("thPencapaian");
+  th.textContent = bulanDipilih === "all"
+    ? "Pencapaian (dalam satuan sasaran)"
+    : `Pencapaian (dalam satuan sasaran) ${bulanLabel[bulanDipilih]}`;
+
+  // Render ulang tabel pakai bulan yang baru
+  const kategori = getQueryParam("kategori");
+  const filtered = rows.filter(item => item.kategori === kategori);
+  renderTable(filtered, kategori);
+});
+
+// Fungsi render tabel
+function renderTable(data, selectedKategori) {
+  const fragment = document.createDocumentFragment();
+
+  const grouped = {};
+  data.forEach(row => {
+    const induk = row["Induk"] || "Lainnya";
+    const sub = row["Sub"] || "Lainnya";
+    if (!grouped[induk]) grouped[induk] = {};
+    if (!grouped[induk][sub]) grouped[induk][sub] = [];
+    grouped[induk][sub].push(row);
+  });
+
+  let index = 1;
+
+  for (const induk in grouped) {
+    const indukRow = document.createElement("tr");
+    indukRow.style.backgroundColor = "#f8d7da";
+    indukRow.innerHTML = `<td colspan="30" class="fw-bold text-danger">${induk}</td>`;
+    fragment.appendChild(indukRow);
+
+    for (const sub in grouped[induk]) {
+      const subRow = document.createElement("tr");
+      subRow.style.backgroundColor = "#cff4fc";
+      subRow.innerHTML = `<td colspan="30" class="fw-semibold text-primary ps-3">${sub}</td>`;
+      fragment.appendChild(subRow);
+
+      for (const row of grouped[induk][sub]) {
+        const rowId = row["No"];
+        const tr = document.createElement("tr");
+        tr.dataset.id = rowId;
+
+        let html = `
+          <td>${index++}</td>
+          <td>${row["Klaster"] || "-"}</td>
+          <td width="60px">${row["Kegiatan"] || "-"}</td>
+          <td>${row["Indikator Kerja"] || "-"}</td>
+          <td>${row["Target 2025"] || "-"}</td>
+          <td>${row["Satuan Sasaran"] || "-"}</td>
+          <td>
+            <input type="text" class="form-control form-control-sm bulan-input"
+              data-field="Total Sasaran" data-id="${rowId}" data-old="${row["Total Sasaran"] || ""}"
+              value="${row["Total Sasaran"] || ""}" />
+          </td>
+          <td>${row["Target Sasaran"] || "-"}</td>
+         <td>${getPencapaianValue(row)}</td>
+        <td>
+        ${
+            row["Indikator Kerja"]?.toLowerCase().includes(
+            "kesesuaian fungsi penyelenggaraan laboratorium kesehatan masyarakat"
+            )
+            ? getPencapaianValue(row)
+            : (row["% Cakupan Rill"] 
+                ? parseFloat(row["% Cakupan Rill"]).toFixed(2) 
+                : "-")
+        }
+        </td>
+
+
+
+
+          <td>${row["Ketercapaian Target Tahun N"] ? parseFloat(row["Ketercapaian Target Tahun N"]).toFixed(2) : "-"}</td>
+        `;
+
+        for (const bulan of bulanKeys) {
+          html += renderEditableCell(bulan, rowId, row[bulan]);
+        }
+
+        tr.innerHTML = html;
+        fragment.appendChild(tr);
+      }
+    }
+  }
+
+  tableBody.innerHTML = "";
+  tableBody.appendChild(fragment);
+}
+
+// Load data
+function loadData() {
+  const selectedFromURL = getQueryParam("kategori");
+
+  if (!selectedFromURL) {
+    tableBody.innerHTML = `<tr><td colspan="25" class="text-center text-muted">Parameter <code>?kategori=</code> diperlukan.</td></tr>`;
+    return;
+  }
+
+  tableBody.innerHTML = `
+    <tr><td colspan="25" class="text-center py-4">
+      <div class="spinner-border text-success" role="status"></div>
+      <div class="mt-2 text-success fw-semibold">Memuat data...</div>
+    </td></tr>`;
+
+  fetch(endpoint)
+    .then(res => res.json())
+    .then(data => {
+      rows = data;
+      const filtered = data.filter(item => item.kategori === selectedFromURL);
+
+      if (filtered.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="25" class="text-danger text-center">Kategori <strong>${selectedFromURL}</strong> tidak ditemukan.</td></tr>`;
+        return;
+      }
+
+      renderTable(filtered, selectedFromURL);
+    })
+    .catch(() => {
+      tableBody.innerHTML = `<tr><td colspan="25" class="text-danger text-center">Gagal memuat data.</td></tr>`;
+    });
+}
+const kategoriParam = getQueryParam("kategori");
+      const namaParam = getQueryParam("nama");
+      const nip = getQueryParam("nip");
+      const imgParam = getQueryParam("img"); // ✅ ambil parameter img
+
+      if (kategoriParam && namaParam && nip && imgParam) {
+        document.getElementById(
+          "analisaLink"
+        ).href = `analisa_program.html?kategori=${encodeURIComponent(
+          kategoriParam
+        )}&nama=${encodeURIComponent(namaParam)}&nip=${encodeURIComponent(
+          nip
+        )}&img=${encodeURIComponent(imgParam)}`; // ✅ tambahkan img ke URL
+      }
+
+// Start
+loadData();
+</script>
+
+    <script>
+       
+
+
+    </script>
+    </body>
+    </html>
