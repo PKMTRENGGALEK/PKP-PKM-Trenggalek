@@ -1,144 +1,144 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PKP 2025</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PKP 2025</title>
 
-    <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", sans-serif;
-        color: #333;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        background: linear-gradient(135deg, #ffffff, #a8e063, #ffffff);
-        background-size: 400% 400%;
-        animation: gradientFlow 10s ease infinite;
-      }
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-      @keyframes gradientFlow {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: #333;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #a8e063, #56ab2f);
+      background-size: 200% 200%;
+      animation: gradientFlow 10s ease infinite;
+    }
 
-      #loginDiv {
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        width: 90%;
-        max-width: 600px;
-        text-align: center;
-        margin: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-      #loginDiv img.logo-pkm {
-        width: 200px;
-      }
+    #loginDiv {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      width: 95%;
+      max-width: 420px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
 
-      h2 {
-        color: #2e7d32;
-        margin-bottom: 20px;
-      }
+    #loginDiv img.logo-pkm {
+      width: 140px;
+      margin-bottom: 15px;
+    }
 
-      .g-signin-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-      }
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      color: #2e7d32;
+    }
 
-      #content {
-        display: none;
-        width: 100vw;
-        height: 100vh;
-      }
+    .g-signin-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
-      iframe {
-        width: 100vw;
-        height: 100vh;
-        border: none;
-      }
+    #content {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+    }
 
-      #userInfo {
-        position: absolute;
-        top: 10px;
-        right: 20px;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 8px 12px;
-        border-radius: 8px;
-        font-size: 0.85rem;
-        color: #333;
-        z-index: 999;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
 
-      #logoutBtn {
-        background: #e53935;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+    #userInfo {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: rgba(255,255,255,0.9);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: #333;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
 
-      #logoutBtn:hover {
-        background: #c62828;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="loginDiv">
-      <img
-        class="logo-pkm"
-        src="https://puskesmastrenggalek.github.io/SIP/assets/pkm.png"
-        alt="Logo Puskesmas"
-      />
-      <h2>Login dengan Google untuk mengakses PKP 2025</h2>
+    #logoutBtn {
+      background: #e53935;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.3s;
+    }
 
-      <div
-        id="g_id_onload"
-        data-client_id="159159886422-e3ccfmj01e46qc5rtmubk21fhe3ocjam.apps.googleusercontent.com"
-        data-callback="handleCredentialResponse"
-        data-auto_prompt="false"
-      ></div>
-      <div class="g-signin-container">
-        <div class="g_id_signin" data-type="standard"></div>
-      </div>
+    #logoutBtn:hover {
+      background: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <!-- Halaman Login -->
+  <div id="loginDiv">
+    <img
+      class="logo-pkm"
+      src="https://puskesmastrenggalek.github.io/SIP/assets/pkm.png"
+      alt="Logo Puskesmas"
+    />
+    <h2>Login dengan Google<br/>untuk mengakses PKP 2025</h2>
+
+    <div
+      id="g_id_onload"
+      data-client_id="159159886422-e3ccfmj01e46qc5rtmubk21fhe3ocjam.apps.googleusercontent.com"
+      data-callback="handleCredentialResponse"
+      data-auto_prompt="false"
+    ></div>
+    <div class="g-signin-container">
+      <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline"></div>
     </div>
+  </div>
 
-    <div id="content">
-      <div id="userInfo">
-        <span id="userName"></span>
-        <button id="logoutBtn">Logout</button>
-      </div>
-      <iframe id="pageFrame" src=""></iframe>
+  <!-- Halaman Konten -->
+  <div id="content">
+    <div id="userInfo">
+      <span id="userName"></span>
+      <button id="logoutBtn">Logout</button>
     </div>
+    <iframe id="pageFrame" src=""></iframe>
+  </div>
 
-    <script>
-      const allowedEmails = [
+  <script>
+    const allowedEmails = [
         "harapan.triple.x@gmail.com",
         "pkmpkmtrenggalek@gmail.com",
         "shevi.ardhian@gmail.com",
@@ -192,99 +192,92 @@
         "anggraininovi84@gmail.com",
         "labpuskesmastrenggalek@gmail.com",
         "tatiksukaryati71@gmail.com",
-      ];
+    ];
 
-      function decodeJwtResponse(token) {
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        return JSON.parse(decodeURIComponent(escape(window.atob(base64))));
+    function decodeJwtResponse(token) {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      return JSON.parse(decodeURIComponent(escape(window.atob(base64))));
+    }
+
+    function showContent(data) {
+      document.getElementById("loginDiv").style.display = "none";
+      document.getElementById("content").style.display = "block";
+      document.getElementById(
+        "userName"
+      ).innerHTML = `👋 Halo, <strong>${data.name}</strong><br/><small>${data.email}</small>`;
+      document.getElementById("pageFrame").src = "home.html";
+    }
+
+    function handleCredentialResponse(response) {
+      const data = decodeJwtResponse(response.credential);
+      const email = data.email;
+
+      if (!allowedEmails.includes(email)) {
+        Swal.fire({
+          icon: "error",
+          title: "Akses Ditolak",
+          text: "Email kamu tidak diizinkan.",
+          confirmButtonColor: "#d33",
+        });
+        return;
       }
 
-      function showContent(data) {
-        document.getElementById("loginDiv").style.display = "none";
-        document.getElementById("content").style.display = "block";
-        document.getElementById(
-          "userName"
-        ).innerHTML = `Halo, <strong>${data.name.toUpperCase()}</strong> (${
-          data.email
-        })`;
-        document.getElementById("pageFrame").src = "home.html";
-      }
+      sessionStorage.setItem("userCredential", JSON.stringify(data));
+      showContent(data);
 
-      function handleCredentialResponse(response) {
-        const data = decodeJwtResponse(response.credential);
-        const email = data.email;
+      Swal.fire({
+        icon: "success",
+        title: "Login Berhasil",
+        text: `Selamat datang, ${data.name}!`,
+        timer: 1800,
+        showConfirmButton: false,
+      });
+    }
 
-        if (!allowedEmails.includes(email)) {
+    function logout() {
+      Swal.fire({
+        title: "Yakin mau logout?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Logout",
+        cancelButtonText: "Batal",
+        confirmButtonColor: "#e53935",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sessionStorage.removeItem("userCredential");
+          document.getElementById("content").style.display = "none";
+          document.getElementById("pageFrame").src = "";
+          document.getElementById("loginDiv").style.display = "block";
+
           Swal.fire({
-            icon: "error",
-            title: "Akses Ditolak",
-            text: "Email kamu tidak diizinkan mengakses halaman ini.",
-            confirmButtonColor: "#d33",
+            icon: "success",
+            title: "Logout berhasil",
+            timer: 1200,
+            showConfirmButton: false,
           });
-          return;
-        }
-
-        sessionStorage.setItem("userCredential", JSON.stringify(data));
-        showContent(data);
-
-        Swal.fire({
-          icon: "success",
-          title: "Login Berhasil",
-          text: `Selamat datang, ${data.name}!`,
-          timer: 2000,
-          showConfirmButton: false,
-        });
-      }
-
-      function logout() {
-        Swal.fire({
-          title: "Yakin mau logout?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Logout",
-          cancelButtonText: "Batal",
-          confirmButtonColor: "#e53935",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            sessionStorage.removeItem("userCredential");
-            document.getElementById("content").style.display = "none";
-            document.getElementById("pageFrame").src = "";
-            document.getElementById("loginDiv").style.display = "block";
-
-            Swal.fire({
-              icon: "success",
-              title: "Logout berhasil",
-              timer: 1500,
-              showConfirmButton: false,
-            });
-          }
-        });
-      }
-
-      function checkSession() {
-        const savedData = sessionStorage.getItem("userCredential");
-        if (savedData) {
-          const data = JSON.parse(savedData);
-          if (allowedEmails.includes(data.email)) {
-            showContent(data);
-          } else {
-            sessionStorage.removeItem("userCredential");
-          }
-        }
-      }
-
-      // Jalankan saat halaman dimuat
-      window.onload = checkSession;
-
-      // Pasang listener tombol logout setelah semua dimuat
-      window.addEventListener("DOMContentLoaded", () => {
-        const logoutBtn = document.getElementById("logoutBtn");
-        if (logoutBtn) {
-          logoutBtn.addEventListener("click", logout);
         }
       });
-    </script>
-  </body>
-</html>
+    }
 
+    function checkSession() {
+      const savedData = sessionStorage.getItem("userCredential");
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        if (allowedEmails.includes(data.email)) {
+          showContent(data);
+        } else {
+          sessionStorage.removeItem("userCredential");
+        }
+      }
+    }
+
+    window.onload = checkSession;
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) logoutBtn.addEventListener("click", logout);
+    });
+  </script>
+</body>
+</html>
