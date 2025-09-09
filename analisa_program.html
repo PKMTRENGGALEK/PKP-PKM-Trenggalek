@@ -1393,122 +1393,91 @@
     </script>
 
     <script>
-      document
-        .getElementById("simpanMasalah")
-        .addEventListener("click", function () {
-          const textareas = document.querySelectorAll(".masalah-textarea");
-          const analisaAreas = document.querySelectorAll(".analisa-textarea");
-          const rtlAreas = document.querySelectorAll(".rtl-textarea"); // Tambahan untuk RTL
-          const hasilAreas = document.querySelectorAll(".hasil-textarea");
+document.getElementById("simpanMasalah").addEventListener("click", function () {
+  const textareas = document.querySelectorAll(".masalah-textarea");
+  const analisaAreas = document.querySelectorAll(".analisa-textarea");
+  const rtlAreas = document.querySelectorAll(".rtl-textarea");
+  const hasilAreas = document.querySelectorAll(".hasil-textarea");
 
-          const updates = [];
+  const updates = [];
 
-          const bulanDipilih = document.getElementById("bulanSelect").value;
-          const labelBulan = labelMap[bulanDipilih];
-          const kolomMasalahDipilih = masalahMap[labelBulan];
-          const kolomAnalisaDipilih = analisaMap[labelBulan];
-          const kolomRTLDipilih = rtlMap[labelBulan]; // Map RTL
-          const kolomHasil = hasilMap[labelBulan] || "Hasil_Jan";
-          // Masalah
-          textareas.forEach((textarea) => {
-            const id = textarea.getAttribute("data-id");
-            const kolomBulan = textarea.getAttribute("data-bulan");
+  const bulanDipilih = document.getElementById("bulanSelect").value;
+  const labelBulan = labelMap[bulanDipilih];
+  const kolomMasalahDipilih = masalahMap[labelBulan];
+  const kolomAnalisaDipilih = analisaMap[labelBulan];
+  const kolomRTLDipilih = rtlMap[labelBulan];
+  const kolomHasil = hasilMap[labelBulan] || `Hasil_${bulanDipilih}`;
 
-            if (kolomBulan !== kolomMasalahDipilih) return;
+  // Fungsi bantu untuk proses tiap textarea
+  function collectData(areas, kolomTarget) {
+    areas.forEach((textarea) => {
+      const id = textarea.getAttribute("data-id");
+      const kolomBulan = textarea.getAttribute("data-bulan");
+      if (kolomBulan !== kolomTarget) return;
 
-            const nilai = textarea.value.trim();
-            if (id && kolomBulan && nilai !== "") {
-              updates.push({ id, bulan: kolomBulan, nilai });
-            }
-          });
+      const nilai = textarea.value.trim();
+      if (id && kolomBulan && nilai !== "") {
+        updates.push({ id, bulan: kolomBulan, nilai });
+      }
+    });
+  }
 
-          // Analisa
-          analisaAreas.forEach((textarea) => {
-            const id = textarea.getAttribute("data-id");
-            const kolomBulan = textarea.getAttribute("data-bulan");
+  collectData(textareas, kolomMasalahDipilih);
+  collectData(analisaAreas, kolomAnalisaDipilih);
+  collectData(rtlAreas, kolomRTLDipilih);
 
-            if (kolomBulan !== kolomAnalisaDipilih) return;
+  // Hasil khusus
+  hasilAreas.forEach((textarea) => {
+    const id = textarea.getAttribute("data-id");
+    const kolomBulan = textarea.getAttribute("data-bulan");
+    if (!kolomBulan.includes(`Hasil_${bulanDipilih}`)) return;
 
-            const nilai = textarea.value.trim();
-            if (id && kolomBulan && nilai !== "") {
-              updates.push({ id, bulan: kolomBulan, nilai });
-            }
-          });
+    const nilai = textarea.value.trim();
+    if (id && kolomBulan && nilai !== "") {
+      updates.push({ id, bulan: kolomBulan, nilai });
+    }
+  });
 
-          // RTL
-          rtlAreas.forEach((textarea) => {
-            const id = textarea.getAttribute("data-id");
-            const kolomBulan = textarea.getAttribute("data-bulan");
+  if (updates.length === 0) {
+    Swal.fire("Tidak ada perubahan", "Silakan isi data terlebih dahulu", "info");
+    return;
+  }
 
-            if (kolomBulan !== kolomRTLDipilih) return;
+  // Tampilkan loading
+  Swal.fire({
+    title: 'Menyimpan data...',
+    html: 'Harap tunggu sebentar',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
 
-            const nilai = textarea.value.trim();
-            if (id && kolomBulan && nilai !== "") {
-              updates.push({ id, bulan: kolomBulan, nilai });
-            }
-          });
+  // Kirim update satu per satu
+  Promise.all(
+    updates.map((item) =>
+      fetch(`${endpoint}?action=update&id=${encodeURIComponent(item.id)}&bulan=${encodeURIComponent(item.bulan)}&nilai=${encodeURIComponent(item.nilai)}`)
+        .then(res => res.json())
+        .catch(() => ({ success: false }))
+    )
+  )
+    .then((results) => {
+      Swal.close(); // Tutup loading
+      const gagal = results.filter(r => !r.success);
+      if (gagal.length > 0) {
+        Swal.fire("Sebagian Gagal", `${gagal.length} data gagal disimpan.`, "warning");
+      } else {
+        Swal.fire("Tersimpan!", "Seluruh perubahan berhasil disimpan.", "success");
+      }
+    })
+    .catch((err) => {
+      Swal.close();
+      console.error("Kesalahan penyimpanan:", err);
+      Swal.fire("Error", "Terjadi kesalahan saat menyimpan data.", "error");
+    });
+});
+</script>
 
-          // Hasil
-          hasilAreas.forEach((textarea) => {
-            const id = textarea.getAttribute("data-id");
-            const kolomBulan = textarea.getAttribute("data-bulan");
-
-            // Pastikan kolom bulan sesuai Hasil_[BulanIni]
-            if (!kolomBulan.includes(`Hasil_${bulanDipilih}`)) return;
-
-            const nilai = textarea.value.trim();
-            if (id && kolomBulan && nilai !== "") {
-              updates.push({ id, bulan: kolomBulan, nilai });
-            }
-          });
-
-          if (updates.length === 0) {
-            Swal.fire(
-              "Tidak ada perubahan",
-              "Silakan isi data terlebih dahulu",
-              "info"
-            );
-            return;
-          }
-
-          // Kirim update satu per satu
-          Promise.all(
-            updates.map((item) =>
-              fetch(
-                `${endpoint}?action=update&id=${encodeURIComponent(
-                  item.id
-                )}&bulan=${encodeURIComponent(
-                  item.bulan
-                )}&nilai=${encodeURIComponent(item.nilai)}`
-              ).then((res) => res.json())
-            )
-          )
-            .then((results) => {
-              const gagal = results.filter((r) => !r.success);
-              if (gagal.length > 0) {
-                Swal.fire(
-                  "Sebagian Gagal",
-                  `${gagal.length} data gagal disimpan.`,
-                  "warning"
-                );
-              } else {
-                Swal.fire(
-                  "Tersimpan!",
-                  "Seluruh perubahan berhasil disimpan.",
-                  "success"
-                );
-              }
-            })
-            .catch((err) => {
-              console.error("Kesalahan penyimpanan:", err);
-              Swal.fire(
-                "Error",
-                "Terjadi kesalahan saat menyimpan data.",
-                "error"
-              );
-            });
-        });
-    </script>
     <script>
       document.getElementById("cetakPDF").addEventListener("click", () => {
         const element = document.querySelector(".table-responsive"); // Bisa diganti ke div/card lain kalau mau
