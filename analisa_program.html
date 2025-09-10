@@ -768,10 +768,10 @@
         const bulanIniKey = bulanKeys[idx];
         const bulanLaluKey = bulanKeys[idx - 1] || null;
         const labelBulan = labelMap[bulanIniKey];
-        const kolomMasalah = masalahMap[labelBulan] || "Masalah_Jan";
-        const kolomAnalisa = analisaMap[labelBulan] || "Analisa_masalah_jan";
-        const kolomRTL = rtlMap[labelBulan] || "RTL_jan";
-        const kolomHasil = hasilMap[labelBulan] || "Hasil_Jan";
+        const kolomMasalah = masalahMap[bulanIniKey] || "Masalah_Jan";
+        const kolomAnalisa = analisaMap[bulanIniKey] || "Analisa_masalah_jan";
+        const kolomRTL = rtlMap[bulanIniKey] || "RTL_jan";
+        const kolomHasil = hasilMap[bulanIniKey] || "Hasil_Jan";
 
         document.querySelectorAll("thead tr:nth-child(2) th")[0].innerText =
           bulanLaluKey ? labelMap[bulanLaluKey] : "-";
