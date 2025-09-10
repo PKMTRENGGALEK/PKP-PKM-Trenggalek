@@ -24,7 +24,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
-    <script src="auth.js"></script>
+    <!-- <script src="auth.js"></script> -->
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -388,7 +388,7 @@
                     </option>
 
                     <option
-                      value="DINA ANINGGARWATI, Amd.Kep.|19821208 201406 2 003|assets/dina.png|PJ Klaster 3"
+                      value="DINA ANINGGARWATI, Amd.Kep.|19821208 201406 2 003|assets/mbdina.png|PJ Klaster 3"
                     >
                       DINA ANINGGARWATI, Amd.Kep.
                     </option>
@@ -811,331 +811,145 @@
             <tr><td colspan="13" class="fw-semibold text-primary" style="background-color: #e2e3f3;">${sub}</td></tr>
           `;
 
-        rowsInSub.forEach((row) => {
-  const indikator = row["Indikator Kerja"] || "-";
-  const bulanIniVal = parseFloat(row[bulanIniKey]);
-  const bulanLaluVal = bulanLaluKey ? parseFloat(row[bulanLaluKey]) : 0;
-  const targetTahun = parseFloat(row["Target 2025"]) || 0;
-  const targetSasaran = parseFloat(row["Target Sasaran"]) || 0;
+          rowsInSub.forEach((row) => {
+            const indikator = row["Indikator Kerja"] || "-";
+            const bulanIniVal = parseFloat(row[bulanIniKey]);
+            const bulanLaluVal = bulanLaluKey
+              ? parseFloat(row[bulanLaluKey])
+              : 0;
+            const targetTahun = parseFloat(row["Target 2025"]) || 0;
+            const targetSasaran = parseFloat(row["Target Sasaran"]) || 0;
 
-  const bulanKe = idx + 1;
+            const bulanKe = idx + 1;
+            const targetSD = targetSasaran
+              ? (
+                  (((targetSasaran / 12) * bulanKe) / targetSasaran) *
+                  100
+                ).toFixed(2)
+              : "-";
 
-  let targetSD, cakupanSD, gap = "-", tren, trenClass = "", grade = "-", gradeClass = "";
+            let totalCapaian = 0;
+            for (let i = 0; i <= idx; i++) {
+              const val = parseFloat(row[bulanKeys[i]]);
+              if (!isNaN(val)) totalCapaian += val;
+            }
 
-  // ==============================
-  // LOGIKA KHUSUS ANTIBIOTIKA ISPA
-  // ==============================
-  if (indikator === "Penggunaan antibiotika pada penatalaksanaan ISPA non pneumonia") {
-    targetSD = targetSasaran
-      ? (((targetSasaran / 12) * bulanKe) / targetSasaran * 100).toFixed(2)
-      : "-";
+            const cakupanSD = targetSasaran
+              ? ((totalCapaian / targetSasaran) * 100).toFixed(2)
+              : "-";
 
-    let totalCapaian = 0;
-    for (let i = 0; i <= idx; i++) {
-      const val = parseFloat(row[bulanKeys[i]]);
-      if (!isNaN(val)) totalCapaian += val;
-    }
-    cakupanSD = targetSasaran
-      ? ((totalCapaian / targetSasaran) * 100).toFixed(2)
-      : "-";
+            const masalahBulanIni = row[kolomMasalah] || "";
+            const analisaBulanIni = row[kolomAnalisa] || "";
+            const RTLBulanIni = row[kolomRTL] || "";
 
-    const cakupanVal = parseFloat(cakupanSD);
-    const targetVal = parseFloat(targetSD);
-    if (!isNaN(cakupanVal) && !isNaN(targetVal)) {
-      const selisihGap = Math.round(cakupanVal - targetVal);
-      gap = `${selisihGap > 0 ? "+" : ""}${selisihGap}`;
-    }
+            let gap = "-";
+            let tren =
+              "<i class='bi bi-arrow-right-circle-fill fs-4 text-dark'></i>";
+            let trenClass = "";
 
-    // tren tetap
-    tren = "<i class='bi bi-arrow-right-circle-fill fs-4 text-dark'></i>";
-    if (!isNaN(bulanIniVal) && !isNaN(bulanLaluVal)) {
-      const selisihBulan = (bulanIniVal - bulanLaluVal).toFixed(2);
-      if (selisihBulan > 0) {
-        tren = "<i class='bi bi-arrow-up-circle-fill fs-4 text-dark'></i>";
-        trenClass = "bg-success text-white";
-      } else if (selisihBulan < 0) {
-        tren = "<i class='bi bi-arrow-down-circle-fill fs-4 text-dark'></i>";
-        trenClass = "bg-danger text-white";
-      }
-    }
+            // Ganti GAP dari selisih antar bulan => selisih cakupan dan target kumulatif
+            const cakupanVal = parseFloat(cakupanSD);
+            const targetVal = parseFloat(targetSD);
 
-    // GRADE khusus ISPA non pneumonia (bertingkat)
-    if (!isNaN(bulanIniVal) && targetSasaran > 0) {
-      const persentase = (bulanIniVal / targetSasaran) * 100;
-      if (persentase < 20) {
-        grade = "";        // 100
-        gradeClass = "bg-success text-white";
-      } else if (persentase < 40) {
-        grade = "";       // 75
-        gradeClass = "bg-warning text-dark";
-      } else if (persentase < 60) {
-        grade = "";      // 50
-        gradeClass = "bg-warning text-dark";
-      } else if (persentase < 80) {
-        grade = "";      // 25
-        gradeClass = "bg-warning text-dark";
-      } else {
-        grade = "";       // 0
-        gradeClass = "bg-danger text-white";
-      }
-    }
+            if (!isNaN(cakupanVal) && !isNaN(targetVal)) {
+              const selisihGap = Math.round(cakupanVal - targetVal);
+              gap = `${selisihGap > 0 ? "+" : ""}${selisihGap}`;
+            }
 
+            // Tetap hitung tren seperti sebelumnya
+            if (!isNaN(bulanIniVal) && !isNaN(bulanLaluVal)) {
+              const selisihBulan = (bulanIniVal - bulanLaluVal).toFixed(2);
+              if (selisihBulan > 0) {
+                tren =
+                  "<i class='bi bi-arrow-up-circle-fill fs-4 text-dark'></i>";
+                trenClass = "bg-success text-white";
+              } else if (selisihBulan < 0) {
+                tren =
+                  "<i class='bi bi-arrow-down-circle-fill fs-4 text-dark'></i>";
+                trenClass = "bg-danger text-white";
+              }
+            }
 
-    // GRADE berdasar % pencapaian bulan ini dibanding sasaran
-    if (!isNaN(bulanIniVal) && targetSasaran > 0) {
-      const persentase = (bulanIniVal / targetSasaran) * 100;
-      if (persentase < 20) {
-        grade = "";
-        gradeClass = "bg-success text-white";
-      } else if (persentase < 40) {
-        grade = "";
-        gradeClass = "bg-warning text-dark";
-      } else {
-        grade = "";
-        gradeClass = "bg-danger text-white";
-      }
-    }
-// ===============================================
-// LOGIKA KHUSUS DIARE NON SPESIFIK
-// ===============================================
-} else if (indikator === "Penggunaan antibiotika pada penatalaksanaan kasus diare non spesifik") {
-  targetSD = targetSasaran
-    ? (((targetSasaran / 12) * bulanKe) / targetSasaran * 100).toFixed(2)
-    : "-";
+            let grade = "-";
+            let gradeClass = "";
 
-  let totalCapaian = 0;
-  for (let i = 0; i <= idx; i++) {
-    const val = parseFloat(row[bulanKeys[i]]);
-    if (!isNaN(val)) totalCapaian += val;
-  }
-  cakupanSD = targetSasaran
-    ? ((totalCapaian / targetSasaran) * 100).toFixed(2)
-    : "-";
+            if (
+              !isNaN(bulanIniVal) &&
+              !isNaN(bulanLaluVal) &&
+              !isNaN(cakupanSD) &&
+              !isNaN(targetSD)
+            ) {
+              const capaianNaik = bulanIniVal > bulanLaluVal;
+              const capaianTurun = bulanIniVal < bulanLaluVal;
+              const capaianSama = bulanIniVal === bulanLaluVal;
 
-  const cakupanVal = parseFloat(cakupanSD);
-  const targetVal = parseFloat(targetSD);
-  if (!isNaN(cakupanVal) && !isNaN(targetVal)) {
-    const selisihGap = Math.round(cakupanVal - targetVal);
-    gap = `${selisihGap > 0 ? "+" : ""}${selisihGap}`;
-  }
+              const selisihCakupan =
+                parseFloat(cakupanSD) - parseFloat(targetSD);
 
-  // Tren tetap
-  tren = "<i class='bi bi-arrow-right-circle-fill fs-4 text-dark'></i>";
-  if (!isNaN(bulanIniVal) && !isNaN(bulanLaluVal)) {
-    const selisihBulan = (bulanIniVal - bulanLaluVal).toFixed(2);
-    if (selisihBulan > 0) {
-      tren = "<i class='bi bi-arrow-up-circle-fill fs-4 text-dark'></i>";
-      trenClass = "bg-success text-white";
-    } else if (selisihBulan < 0) {
-      tren = "<i class='bi bi-arrow-down-circle-fill fs-4 text-dark'></i>";
-      trenClass = "bg-danger text-white";
-    }
-  }
+              if ((capaianNaik || capaianSama) && selisihCakupan >= 0) {
+                grade = "";
+                gradeClass = "bg-primary text-white";
+              } else if (capaianTurun && selisihCakupan >= 0) {
+                grade = "";
+                gradeClass = "bg-success text-white";
+              } else if (capaianNaik && selisihCakupan < 0) {
+                grade = "";
+                gradeClass = "bg-warning text-dark";
+              } else if ((capaianTurun || capaianSama) && selisihCakupan < 0) {
+                grade = "";
+                gradeClass = "bg-danger text-white";
+              }
+            }
 
-  // Grading bertingkat
-  if (!isNaN(bulanIniVal)) {
-    if (bulanIniVal < 8) {
-      grade = "";        // 100
-      gradeClass = "bg-success text-white";
-    } else if (bulanIniVal < 20) {
-      grade = "";       // 75
-      gradeClass = "bg-warning text-dark";
-    } else if (bulanIniVal < 40) {
-      grade = "";      // 50
-      gradeClass = "bg-warning text-dark";
-    } else if (bulanIniVal < 60) {
-      grade = "";      // 25
-      gradeClass = "bg-warning text-dark";
-    } else {
-      grade = "";       // 0
-      gradeClass = "bg-danger text-white";
-    }
-  }
-  } else if (indikator === "Rerata item obat yang diresepkan") {
-  targetSD = targetSasaran
-    ? (((targetSasaran / 12) * bulanKe) / targetSasaran * 100).toFixed(2)
-    : "-";
+            rows += `
+              <tr>
+                <td class="text-center">${counter++}</td>
+                <td class="text-wrap "  title="${indikator}">${indikator}</td>
+                <td class="text-wrap text-center">${
+                  isNaN(bulanLaluVal) ? "-" : bulanLaluVal
+                }</td>
+                <td class="text-wrap text-center">${
+                  isNaN(bulanIniVal) ? "-" : bulanIniVal
+                }</td>
+                <td class="text-wrap text-center">${targetSD}</td>
+                <td class="text-wrap text-center">${cakupanSD}</td>
+                <td class="text-center">${gap}</td>
+                <td class="text-center">${tren}</td>
+                <td class="${gradeClass} text-center fw-semibold">${grade}</td>
+                <td>
+                  <textarea class="form-control form-control-sm masalah-textarea"
+                    rows="2"
+                    data-id="${row["No"]}"
+                    data-bulan="${kolomMasalah}">${masalahBulanIni}</textarea>
+                </td>
+                <td>
+                  <textarea class="form-control form-control-sm analisa-textarea"
+                  style="overflow:hidden; resize:none;"
+                    rows="2"
+                    data-id="${row["No"]}"
+                    data-bulan="${kolomAnalisa}">${analisaBulanIni}</textarea>
+                </td>
+                <td>
+                  <textarea class="form-control form-control-sm rtl-textarea"
+                  style="overflow:hidden; resize:none;"
+                    rows="2"
+                    data-id="${row["No"]}"
+                    data-bulan="${kolomRTL}">${RTLBulanIni}</textarea>
+                </td>
+                <td>
+                  <textarea class="form-control form-control-sm hasil-textarea"
+                  style="overflow:hidden; resize:none;"
+                    rows="2"
+                    data-id="${row["No"]}"
+                    data-bulan="Hasil_${bulanIniKey}">${
+              row["Hasil_" + bulanIniKey] || ""
+            }</textarea>
+                </td>
 
-  let totalCapaian = 0;
-  for (let i = 0; i <= idx; i++) {
-    const val = parseFloat(row[bulanKeys[i]]);
-    if (!isNaN(val)) totalCapaian += val;
-  }
-  cakupanSD = targetSasaran
-    ? ((totalCapaian / targetSasaran) * 100).toFixed(2)
-    : "-";
-
-  const cakupanVal = parseFloat(cakupanSD);
-  const targetVal = parseFloat(targetSD);
-  if (!isNaN(cakupanVal) && !isNaN(targetVal)) {
-    const selisihGap = Math.round(cakupanVal - targetVal);
-    gap = `${selisihGap > 0 ? "+" : ""}${selisihGap}`;
-  }
-
-  // Tren tetap
-  tren = "<i class='bi bi-arrow-right-circle-fill fs-4 text-dark'></i>";
-  if (!isNaN(bulanIniVal) && !isNaN(bulanLaluVal)) {
-    const selisihBulan = (bulanIniVal - bulanLaluVal).toFixed(2);
-    if (selisihBulan > 0) {
-      tren = "<i class='bi bi-arrow-up-circle-fill fs-4 text-dark'></i>";
-      trenClass = "bg-success text-white";
-    } else if (selisihBulan < 0) {
-      tren = "<i class='bi bi-arrow-down-circle-fill fs-4 text-dark'></i>";
-      trenClass = "bg-danger text-white";
-    }
-  }
-
-  // Grading bertingkat
-  if (!isNaN(bulanIniVal)) {
-    if (bulanIniVal <= 2.6) {
-      grade = "";        // 100
-      gradeClass = "bg-success text-white";
-    } else if (bulanIniVal <= 4) {
-      grade = "";       // 75
-      gradeClass = "bg-warning text-dark";
-    } else if (bulanIniVal <= 7) {
-      grade = "";      // 50
-      gradeClass = "bg-warning text-dark";
-    } else if (bulanIniVal <= 9) {
-      grade = "";      // 25
-      gradeClass = "bg-warning text-dark";
-    } else {
-      grade = "";       // 0
-      gradeClass = "bg-danger text-white";
-    }
-  }
-
-//logika lain
-} else if (indikator === "Penggunaan Injeksi pada Myalgia") {
-    targetSD = targetSasaran
-      ? (((targetSasaran / 12) * bulanKe) / targetSasaran * 100).toFixed(2)
-      : "-";
-
-    let totalCapaian = 0;
-    for (let i = 0; i <= idx; i++) {
-      const val = parseFloat(row[bulanKeys[i]]);
-      if (!isNaN(val)) totalCapaian += val;
-    }
-    cakupanSD = targetSasaran
-      ? ((totalCapaian / targetSasaran) * 100).toFixed(2)
-      : "-";
-
-    const cakupanVal = parseFloat(cakupanSD);
-    const targetVal = parseFloat(targetSD);
-    if (!isNaN(cakupanVal) && !isNaN(targetVal)) {
-      const selisihGap = Math.round(cakupanVal - targetVal);
-      gap = `${selisihGap > 0 ? "+" : ""}${selisihGap}`;
-    }
-
-    // tren tetap
-    tren = "<i class='bi bi-arrow-right-circle-fill fs-4 text-dark'></i>";
-    if (!isNaN(bulanIniVal) && !isNaN(bulanLaluVal)) {
-      const selisihBulan = (bulanIniVal - bulanLaluVal).toFixed(2);
-      if (selisihBulan > 0) {
-        tren = "<i class='bi bi-arrow-up-circle-fill fs-4 text-dark'></i>";
-        trenClass = "bg-success text-white";
-      } else if (selisihBulan < 0) {
-        tren = "<i class='bi bi-arrow-down-circle-fill fs-4 text-dark'></i>";
-        trenClass = "bg-danger text-white";
-      }
-    }
-
-    // GRADE khusus Myalgia (bertingkat)
-    if (!isNaN(bulanIniVal)) {
-      if (bulanIniVal <= 1) {
-        grade = "";
-        gradeClass = "bg-success text-white"; // 100
-      } else if (bulanIniVal <= 10) {
-        grade = "";
-        gradeClass = "bg-success text-white"; // 75
-      } else if (bulanIniVal <= 20) {
-        grade = "";
-        gradeClass = "bg-warning text-dark"; // 50
-      } else if (bulanIniVal <= 30) {
-        grade = "";
-        gradeClass = "bg-warning text-dark"; // 25
-      } else {
-        grade = "";
-        gradeClass = "bg-danger text-white"; // 0
-      }
-    }
-
-  // ==============================
-  // LOGIKA UMUM (tetap)
-  // ==============================
-  } else {
-    targetSD = targetSasaran
-      ? (((targetSasaran / 12) * bulanKe) / targetSasaran * 100).toFixed(2)
-      : "-";
-
-    let totalCapaian = 0;
-    for (let i = 0; i <= idx; i++) {
-      const val = parseFloat(row[bulanKeys[i]]);
-      if (!isNaN(val)) totalCapaian += val;
-    }
-    cakupanSD = targetSasaran
-      ? ((totalCapaian / targetSasaran) * 100).toFixed(2)
-      : "-";
-
-    const cakupanVal = parseFloat(cakupanSD);
-    const targetVal = parseFloat(targetSD);
-    if (!isNaN(cakupanVal) && !isNaN(targetVal)) {
-      const selisihGap = Math.round(cakupanVal - targetVal);
-      gap = `${selisihGap > 0 ? "+" : ""}${selisihGap}`;
-    }
-
-    tren = "<i class='bi bi-arrow-right-circle-fill fs-4 text-dark'></i>";
-    if (!isNaN(bulanIniVal) && !isNaN(bulanLaluVal)) {
-      const selisihBulan = (bulanIniVal - bulanLaluVal).toFixed(2);
-      if (selisihBulan > 0) {
-        tren = "<i class='bi bi-arrow-up-circle-fill fs-4 text-dark'></i>";
-        trenClass = "bg-success text-white";
-      } else if (selisihBulan < 0) {
-        tren = "<i class='bi bi-arrow-down-circle-fill fs-4 text-dark'></i>";
-        trenClass = "bg-danger text-white";
-      }
-    }
-
-    if (!isNaN(bulanIniVal) && !isNaN(bulanLaluVal) && !isNaN(cakupanSD) && !isNaN(targetSD)) {
-      const capaianNaik = bulanIniVal > bulanLaluVal;
-      const capaianTurun = bulanIniVal < bulanLaluVal;
-      const capaianSama = bulanIniVal === bulanLaluVal;
-      const selisihCakupan = parseFloat(cakupanSD) - parseFloat(targetSD);
-
-      if ((capaianNaik || capaianSama) && selisihCakupan >= 0) {
-        gradeClass = "bg-primary text-white";
-      } else if (capaianTurun && selisihCakupan >= 0) {
-        gradeClass = "bg-success text-white";
-      } else if (capaianNaik && selisihCakupan < 0) {
-        gradeClass = "bg-warning text-dark";
-      } else if ((capaianTurun || capaianSama) && selisihCakupan < 0) {
-        gradeClass = "bg-danger text-white";
-      }
-    }
-  }
-
-  const masalahBulanIni = row[kolomMasalah] || "";
-  const analisaBulanIni = row[kolomAnalisa] || "";
-  const RTLBulanIni = row[kolomRTL] || "";
-
-  rows += `
-    <tr>
-      <td class="text-center">${counter++}</td>
-      <td class="text-wrap" title="${indikator}">${indikator}</td>
-      <td class="text-center">${isNaN(bulanLaluVal) ? "-" : bulanLaluVal}</td>
-      <td class="text-center">${isNaN(bulanIniVal) ? "-" : bulanIniVal}</td>
-      <td class="text-center">${targetSD}</td>
-      <td class="text-center">${cakupanSD}</td>
-      <td class="text-center">${gap}</td>
-      <td class="text-center">${tren}</td>
-      <td class="${gradeClass} text-center fw-semibold">${grade}</td>
-      <td><textarea class="form-control form-control-sm masalah-textarea" rows="2" data-id="${row["No"]}" data-bulan="${kolomMasalah}">${masalahBulanIni}</textarea></td>
-      <td><textarea class="form-control form-control-sm analisa-textarea" style="overflow:hidden; resize:none;" rows="2" data-id="${row["No"]}" data-bulan="${kolomAnalisa}">${analisaBulanIni}</textarea></td>
-      <td><textarea class="form-control form-control-sm rtl-textarea" style="overflow:hidden; resize:none;" rows="2" data-id="${row["No"]}" data-bulan="${kolomRTL}">${RTLBulanIni}</textarea></td>
-      <td><textarea class="form-control form-control-sm hasil-textarea" style="overflow:hidden; resize:none;" rows="2" data-id="${row["No"]}" data-bulan="Hasil_${bulanIniKey}">${row["Hasil_" + bulanIniKey] || ""}</textarea></td>
-    </tr>`;
-});
+              </tr>`;
+          });
         }
+
         tbody.innerHTML = rows;
         function autoResizeTextarea(textarea) {
           textarea.style.height = "auto";
@@ -1393,95 +1207,118 @@
     </script>
 
     <script>
-document.getElementById("simpanMasalah").addEventListener("click", function () {
-  const textareas = document.querySelectorAll(".masalah-textarea");
-  const analisaAreas = document.querySelectorAll(".analisa-textarea");
-  const rtlAreas = document.querySelectorAll(".rtl-textarea");
-  const hasilAreas = document.querySelectorAll(".hasil-textarea");
+      document
+        .getElementById("simpanMasalah")
+        .addEventListener("click", function () {
+          const textareas = document.querySelectorAll(".masalah-textarea");
+          const analisaAreas = document.querySelectorAll(".analisa-textarea");
+          const rtlAreas = document.querySelectorAll(".rtl-textarea");
+          const hasilAreas = document.querySelectorAll(".hasil-textarea");
 
-  const updates = [];
+          const updates = [];
 
-  const bulanDipilih = document.getElementById("bulanSelect").value;
-  const labelBulan = labelMap[bulanDipilih];
-  const kolomMasalahDipilih = masalahMap[labelBulan];
-  const kolomAnalisaDipilih = analisaMap[labelBulan];
-  const kolomRTLDipilih = rtlMap[labelBulan];
-  const kolomHasil = hasilMap[labelBulan] || `Hasil_${bulanDipilih}`;
+          const bulanDipilih = document.getElementById("bulanSelect").value;
+          const labelBulan = labelMap[bulanDipilih];
+          const kolomMasalahDipilih = masalahMap[labelBulan];
+          const kolomAnalisaDipilih = analisaMap[labelBulan];
+          const kolomRTLDipilih = rtlMap[labelBulan];
+          const kolomHasil = hasilMap[labelBulan] || `Hasil_${bulanDipilih}`;
 
-  // Fungsi bantu untuk proses tiap textarea
-  function collectData(areas, kolomTarget) {
-    areas.forEach((textarea) => {
-      const id = textarea.getAttribute("data-id");
-      const kolomBulan = textarea.getAttribute("data-bulan");
-      if (kolomBulan !== kolomTarget) return;
+          // Fungsi bantu untuk proses tiap textarea
+          function collectData(areas, kolomTarget) {
+            areas.forEach((textarea) => {
+              const id = textarea.getAttribute("data-id");
+              const kolomBulan = textarea.getAttribute("data-bulan");
+              if (kolomBulan !== kolomTarget) return;
 
-      const nilai = textarea.value.trim();
-      if (id && kolomBulan && nilai !== "") {
-        updates.push({ id, bulan: kolomBulan, nilai });
-      }
-    });
-  }
+              const nilai = textarea.value.trim();
+              if (id && kolomBulan && nilai !== "") {
+                updates.push({ id, bulan: kolomBulan, nilai });
+              }
+            });
+          }
 
-  collectData(textareas, kolomMasalahDipilih);
-  collectData(analisaAreas, kolomAnalisaDipilih);
-  collectData(rtlAreas, kolomRTLDipilih); // ✅ RTL sekarang akan diproses
-collectData(hasilAreas, kolomHasil);    // ✅ Hasil
+          collectData(textareas, kolomMasalahDipilih);
+          collectData(analisaAreas, kolomAnalisaDipilih);
+          collectData(rtlAreas, kolomRTLDipilih); // ✅ RTL sekarang akan diproses
+          collectData(hasilAreas, kolomHasil); // ✅ Hasil
 
-  // Hasil khusus
-  // Hasil khusus
-hasilAreas.forEach((textarea) => {
-  const id = textarea.getAttribute("data-id");
-  const kolomBulan = textarea.getAttribute("data-bulan");
+          // Hasil khusus
+          // Hasil khusus
+          hasilAreas.forEach((textarea) => {
+            const id = textarea.getAttribute("data-id");
+            const kolomBulan = textarea.getAttribute("data-bulan");
 
-  // Hanya untuk Hasil
-  if (!kolomBulan.includes(`Hasil_${bulanDipilih}`)) return;
+            // Hanya untuk Hasil
+            if (!kolomBulan.includes(`Hasil_${bulanDipilih}`)) return;
 
-  const nilai = textarea.value.trim();
-  if (id && kolomBulan && nilai !== "") {
-    updates.push({ id, bulan: kolomBulan, nilai });
-  }
-});
+            const nilai = textarea.value.trim();
+            if (id && kolomBulan && nilai !== "") {
+              updates.push({ id, bulan: kolomBulan, nilai });
+            }
+          });
 
+          if (updates.length === 0) {
+            Swal.fire(
+              "Tidak ada perubahan",
+              "Silakan isi data terlebih dahulu",
+              "info"
+            );
+            return;
+          }
 
-  if (updates.length === 0) {
-    Swal.fire("Tidak ada perubahan", "Silakan isi data terlebih dahulu", "info");
-    return;
-  }
+          // Tampilkan loading
+          Swal.fire({
+            title: "Menyimpan data...",
+            html: "Harap tunggu sebentar",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
 
-  // Tampilkan loading
-  Swal.fire({
-    title: 'Menyimpan data...',
-    html: 'Harap tunggu sebentar',
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
-
-  // Kirim update satu per satu
-  Promise.all(
-    updates.map((item) =>
-      fetch(`${endpoint}?action=update&id=${encodeURIComponent(item.id)}&bulan=${encodeURIComponent(item.bulan)}&nilai=${encodeURIComponent(item.nilai)}`)
-        .then(res => res.json())
-        .catch(() => ({ success: false }))
-    )
-  )
-    .then((results) => {
-      Swal.close(); // Tutup loading
-      const gagal = results.filter(r => !r.success);
-      if (gagal.length > 0) {
-        Swal.fire("Sebagian Gagal", `${gagal.length} data gagal disimpan.`, "warning");
-      } else {
-        Swal.fire("Tersimpan!", "Seluruh perubahan berhasil disimpan.", "success");
-      }
-    })
-    .catch((err) => {
-      Swal.close();
-      console.error("Kesalahan penyimpanan:", err);
-      Swal.fire("Error", "Terjadi kesalahan saat menyimpan data.", "error");
-    });
-});
-</script>
+          // Kirim update satu per satu
+          Promise.all(
+            updates.map((item) =>
+              fetch(
+                `${endpoint}?action=update&id=${encodeURIComponent(
+                  item.id
+                )}&bulan=${encodeURIComponent(
+                  item.bulan
+                )}&nilai=${encodeURIComponent(item.nilai)}`
+              )
+                .then((res) => res.json())
+                .catch(() => ({ success: false }))
+            )
+          )
+            .then((results) => {
+              Swal.close(); // Tutup loading
+              const gagal = results.filter((r) => !r.success);
+              if (gagal.length > 0) {
+                Swal.fire(
+                  "Sebagian Gagal",
+                  `${gagal.length} data gagal disimpan.`,
+                  "warning"
+                );
+              } else {
+                Swal.fire(
+                  "Tersimpan!",
+                  "Seluruh perubahan berhasil disimpan.",
+                  "success"
+                );
+              }
+            })
+            .catch((err) => {
+              Swal.close();
+              console.error("Kesalahan penyimpanan:", err);
+              Swal.fire(
+                "Error",
+                "Terjadi kesalahan saat menyimpan data.",
+                "error"
+              );
+            });
+        });
+    </script>
 
     <script>
       document.getElementById("cetakPDF").addEventListener("click", () => {
