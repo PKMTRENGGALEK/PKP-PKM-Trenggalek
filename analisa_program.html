@@ -1424,19 +1424,24 @@ document.getElementById("simpanMasalah").addEventListener("click", function () {
 
   collectData(textareas, kolomMasalahDipilih);
   collectData(analisaAreas, kolomAnalisaDipilih);
-  collectData(rtlAreas, kolomRTLDipilih);
+  collectData(rtlAreas, kolomRTLDipilih); // ✅ RTL sekarang akan diproses
+collectData(hasilAreas, kolomHasil);    // ✅ Hasil
 
   // Hasil khusus
-  hasilAreas.forEach((textarea) => {
-    const id = textarea.getAttribute("data-id");
-    const kolomBulan = textarea.getAttribute("data-bulan");
-    if (!kolomBulan.includes(`Hasil_${bulanDipilih}`)) return;
+  // Hasil khusus
+hasilAreas.forEach((textarea) => {
+  const id = textarea.getAttribute("data-id");
+  const kolomBulan = textarea.getAttribute("data-bulan");
 
-    const nilai = textarea.value.trim();
-    if (id && kolomBulan && nilai !== "") {
-      updates.push({ id, bulan: kolomBulan, nilai });
-    }
-  });
+  // Hanya untuk Hasil
+  if (!kolomBulan.includes(`Hasil_${bulanDipilih}`)) return;
+
+  const nilai = textarea.value.trim();
+  if (id && kolomBulan && nilai !== "") {
+    updates.push({ id, bulan: kolomBulan, nilai });
+  }
+});
+
 
   if (updates.length === 0) {
     Swal.fire("Tidak ada perubahan", "Silakan isi data terlebih dahulu", "info");
