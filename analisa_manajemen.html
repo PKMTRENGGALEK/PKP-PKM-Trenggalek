@@ -27,7 +27,7 @@
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="auth.js"></script>
+    <!-- <script src="auth.js"></script> -->
     <style>
       body {
         background: #f0f4f5;
@@ -154,7 +154,7 @@
             <!-- Pilih Bulan -->
             <div class="col-md-3 col-sm-6 mb-2">
               <label for="bulanSelect" class="form-label fw-bold"
-                >Pilih Bulan:</label
+                >Pilih Triwulan:</label
               >
               <select
                 id="bulanSelect"
@@ -170,7 +170,7 @@
             </div>
 
             <!-- Pilih Kategori -->
-            <div class="col-md-4 col-sm-6 mb-2">
+            <!-- <div class="col-md-4 col-sm-6 mb-2">
               <label for="programSelect" class="form-label fw-bold"
                 >Pilih Kategori:</label
               >
@@ -180,9 +180,9 @@
                 style="max-width: 300px"
               >
                 <option value="Semua">Semua Program</option>
-                <!-- Kategori lainnya akan ditambahkan lewat JavaScript -->
+                
               </select>
-            </div>
+            </div> -->
           </div>
 
           <div class="text-end mt-3 mb-2">
@@ -210,17 +210,17 @@
                 <tr>
                   <th rowspan="2">No</th>
                   <th rowspan="2" width="300px">Indikator Kerja</th>
-                  <th colspan="2">Bulan</th>
+                  <th colspan="2">Triwulan</th>
                   <th
                     rowspan="2"
                     id="targetHeader"
                     width="70px"
                     class="text-wrap"
                   >
-                    % Target s/d Bulan ...
+                    % Target s/d Triwulan ...
                   </th>
                   <th rowspan="2" width="70px" class="text-wrap">
-                    % CAKUPAN s/d Bulan <span id="cakupanBulan">...</span>
+                    % CAKUPAN s/d Triwulan <span id="cakupanBulan">...</span>
                   </th>
                   <th
                     rowspan="2"
@@ -247,8 +247,8 @@
                   </th>
                 </tr>
                 <tr>
-                  <th>Bulan Lalu</th>
-                  <th>Bulan Ini</th>
+                  <th>Triwulan Lalu</th>
+                  <th>Triwulan Ini</th>
                 </tr>
               </thead>
               <tbody id="tableBody">
@@ -304,48 +304,48 @@
       const endpoint =
         "https://script.google.com/macros/s/AKfycbzg84-rK9Grl_7-89tbqoXR_H5CSXyBcd45sE4zwEXSxn_DIxwP-ERWu2GaH6lDC9-S/exec";
 
-      let originalData = [];
-      let selectedBulan = "Juli";
-      let selectedkategori = "Semua";
+    let originalData = [];
+let selectedBulan = "TWIII";   // default: Triwulan III
+let selectedkategori = "Semua";
 
-      const bulanKeys = [
-        "Triwulan II",
-        "Triwulan II",
-        "Triwulan III",
-        "Triwulan IV",
-      ];
+// 🔹 Kunci triwulan sesuai dengan kolom di spreadsheet
+const bulanKeys = ["TWI", "TWII", "TWIII", "TWIV"];
 
-      const labelMap = {
-        TWI: "Triwulan I",
-        TWII: "Triwulan II",
-        TWIII: "Triwulan III",
-        TWIV: "Triwulan IV",
-      };
+const labelMap = {
+  TWI: "Triwulan I",
+  TWII: "Triwulan II",
+  TWIII: "Triwulan III",
+  TWIV: "Triwulan IV",
+};
 
-      const masalahMap = {
-        TWI: "Masalah_TWI",
-        TWII: "Masalah_TWII",
-        TWIII: "Masalah_TWIII",
-        TWIV: "Masalah_TWIV",
-      };
-      const analisaMap = {
-        TWI: "Analisa_masalah_TWI",
-        TWII: "Analisa_Masalah_TWII",
-        TWIII: "Analisa_Masalah_TWIII",
-        TWIV: "Analisa_Masalah_TWIV",
-      };
-      const rtlMap = {
-        TWI: "RTL_TWI",
-        TWII: "RTL_TWII",
-        TWIII: "RTL_TWIII",
-        TWIV: "RTL_TWIV",
-      };
-      const hasilMap = {
-        TWI: "Hasil_TWI",
-        TWII: "Hasil_TWII",
-        TWIII: "Hasil_TWIII",
-        TWIV: "Hasil_TWIV",
-      };
+const masalahMap = {
+  TWI: "Masalah_TWI",
+  TWII: "Masalah_TWII",
+  TWIII: "Masalah_TWIII",
+  TWIV: "Masalah_TWIV",
+};
+
+const analisaMap = {
+  TWI: "Analisa_masalah_TWI",
+  TWII: "Analisa_Masalah_TWII",
+  TWIII: "Analisa_Masalah_TWIII",
+  TWIV: "Analisa_Masalah_TWIV",
+};
+
+const rtlMap = {
+  TWI: "RTL_TWI",
+  TWII: "RTL_TWII",
+  TWIII: "RTL_TWIII",
+  TWIV: "RTL_TWIV",
+};
+
+const hasilMap = {
+  TWI: "Hasil_TWI",
+  TWII: "Hasil_TWII",
+  TWIII: "Hasil_TWIII",
+  TWIV: "Hasil_TWIV",
+};
+
 
       window.onload = function () {
         fetch(endpoint)
@@ -406,7 +406,7 @@
 
         document.getElementById(
           "targetHeader"
-        ).innerText = `% Target s/d Bulan ${labelBulan}`;
+        ).innerText = `% Target s/d Triwulan ${labelBulan}`;
         document.getElementById("cakupanBulan").innerText = labelBulan;
 
         // 🔹 Filter berdasarkan kategori
