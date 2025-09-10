@@ -99,6 +99,7 @@
         box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.05);
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   </head>
   <body>
     <!-- Navbar -->
@@ -119,11 +120,17 @@
             Instrumen Penghitungan Klaster Pelayanan Manajemen
           </h2>
 
-          <!-- Filter Program -->
-          <select class="form-select" id="filterProgram">
-            <option value="">Semua Program</option>
-          </select>
+         <div class="d-flex justify-content-between align-items-center mb-3">
+            <!-- Filter Program -->
+            <select class="form-select" id="filterProgram" style="max-width:280px;">
+                <option value="">Semua Program</option>
+            </select>
 
+            <!-- Tombol Export -->
+            <button id="exportExcel" class="btn btn-outline-primary shadow ms-2">
+                🖨 Export Excel
+            </button>
+          </div>
           <!-- Tabel -->
           <div class="table-responsive tableFixHead sticky-header">
             <table
@@ -218,9 +225,9 @@
         data.forEach((row, i) => {
           tableBody.innerHTML += `
             <tr>
-              <td>${i + 1}</td>
-              <td>${row["Jenis Variabel"] || ""}</td>
-              <td>${row["Definisi Operasional"] || ""}</td>
+              <td class="text-start">${i + 1}</td>
+              <td class="text-start">${row["Jenis Variabel"] || ""}</td>
+              <td class="text-start">${row["Definisi Operasional"] || ""}</td>
               <td>${row["0"] || ""}</td>
               <td>${row["4"] || ""}</td>
               <td>${row["7"] || ""}</td>
@@ -240,7 +247,14 @@
           : allData;
         renderTable(filtered);
       });
-
+      document.getElementById("exportExcel").addEventListener("click", () => {
+  // Ambil tabel
+  const table = document.getElementById("programTable");
+  // Konversi tabel ke worksheet
+  const wb = XLSX.utils.table_to_book(table, { sheet: "Data Program" });
+  // Download file excel
+  XLSX.writeFile(wb, "Data_P2_Kesling.xlsx");
+});
       loadData();
     </script>
   </body>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Report - Manajemen</title>
+    <title>Report - Lintas Klaster</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -19,6 +19,7 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        padding-bottom: 60px;
       }
 
       .container {
@@ -33,13 +34,13 @@
 
       .navbar-brand {
         font-weight: 600;
-        color: #7d752e !important;
+        color: #106e7a !important;
       }
 
       .section-title {
         text-align: center;
         margin: 20px 0;
-        color: #2e7d32;
+        color: #106e7a;
         font-size: 1.3rem;
         font-weight: 700;
       }
@@ -79,14 +80,14 @@
       .tableFixHead thead tr:nth-child(1) th {
         position: sticky;
         top: 0;
-        background: #5e6d08;
+        background: #106e7a;
         z-index: 3;
       }
 
       .tableFixHead thead tr:nth-child(2) th {
         position: sticky;
         top: 28px; /* sesuaikan dengan tinggi baris 1 */
-        background: #5e6d08;
+        background: #106e7a;
         z-index: 2;
       }
 
@@ -104,8 +105,8 @@
         text-align: left !important;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   </head>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <body>
     <!-- Navbar -->
     <nav class="navbar fixed-top bg-white shadow-sm">
@@ -122,7 +123,7 @@
             ⬅️ Kembali
           </a>
           <h2 class="section-title">
-            Instrumen Penghitungan Klaster Pelayanan Kesehatan Ibu dan Anak
+            Instrumen Penghitungan Lintas Klaster 
           </h2>
 
          <div class="d-flex justify-content-between align-items-center mb-3">
@@ -187,7 +188,7 @@
   const tableBody = document.getElementById("tableBody");
   const filterProgram = document.getElementById("filterProgram");
 
-  let rows = []; // simpan semua data Klaster 2
+  let rows = []; // simpan semua data Lintas Klaster
 
   // helper badge warna
   function getBadge(persen) {
@@ -248,7 +249,7 @@
                 <td class="text-start">${index++}</td>
                 <td class="text-start">${row["Kegiatan"] || "-"}</td>
                 <td class="text-start">${row["Indikator Kerja"] || "-"}</td>
-                <td>${row["Target 2025"] || "-"}</td>
+                <td >${row["Target 2025"] || "-"}</td>
                 <td>${row["Satuan Sasaran"] || "-"}</td>
                 <td>${row["Total Sasaran"] || "-"}</td>
                 <td>${target || "-"}</td>
@@ -265,7 +266,7 @@
     tableBody.appendChild(fragment);
   }
 
-  // Load data hanya Klaster 2
+  // Load data hanya Lintas Klaster
   function loadData() {
     tableBody.innerHTML = `
           <tr><td colspan="9" class="text-center py-4">
@@ -276,12 +277,12 @@
     fetch(endpoint)
       .then((res) => res.json())
       .then((data) => {
-        // filter hanya Klaster 2
-        rows = data.filter((item) => item.Klaster === "Klaster 2");
+        // filter hanya Lintas Klaster
+        rows = data.filter((item) => item.Klaster === "Lintas Klaster");
 
         if (rows.length === 0) {
           tableBody.innerHTML =
-            '<tr><td colspan="9" class="text-danger text-center">Data Klaster 2 tidak ditemukan.</td></tr>';
+            '<tr><td colspan="9" class="text-danger text-center">Data Lintas Klaster tidak ditemukan.</td></tr>';
           return;
         }
 
