@@ -295,71 +295,70 @@
       }
 
       function renderTable(rows, selectedKategori) {
-        const fragment = document.createDocumentFragment();
+  const fragment = document.createDocumentFragment();
 
-        const grouped = {};
-        rows.forEach((row) => {
-          const induk = row["Induk"] || "INDIKATOR KINERJA UTAMA (IKU)";
-          const sub = row["Sub"] || "Lainnya";
-          if (!grouped[induk]) grouped[induk] = {};
-          if (!grouped[induk][sub]) grouped[induk][sub] = [];
-          grouped[induk][sub].push(row);
-        });
+  const grouped = {};
+  rows.forEach((row) => {
+    const induk = row["Induk"] || "INDIKATOR KINERJA UTAMA (IKU)";
+    const sub = row["Sub"] || "Lainnya";
+    if (!grouped[induk]) grouped[induk] = {};
+    if (!grouped[induk][sub]) grouped[induk][sub] = [];
+    grouped[induk][sub].push(row);
+  });
 
-        let index = 1;
+  let index = 1;
 
-        for (const induk in grouped) {
-          const indukRow = document.createElement("tr");
-          indukRow.style.backgroundColor = "#f8d7da";
-          indukRow.innerHTML = `<td colspan="30" class="fw-bold text-danger">${induk}</td>`;
-          fragment.appendChild(indukRow);
+  for (const induk in grouped) {
+    const indukRow = document.createElement("tr");
+    indukRow.style.backgroundColor = "#f8d7da";
+    indukRow.innerHTML = `<td colspan="30" class="fw-bold text-danger">${induk}</td>`;
+    fragment.appendChild(indukRow);
 
-          for (const sub in grouped[induk]) {
-            for (const row of grouped[induk][sub]) {
-              const rowId = row["No"];
-              const tr = document.createElement("tr");
-              tr.dataset.id = rowId;
+    for (const sub in grouped[induk]) {
+      for (const row of grouped[induk][sub]) {
+        const rowId = row["No"];
+        const tr = document.createElement("tr");
+        tr.dataset.id = rowId;
 
-              let html = `
-                <td>${index++}</td>
-                <td width="60px">${row["Indikator Utama"] || "-"}</td>
-                <td width="60px">${
-                  row["Target Tahunan"] != null
-                    ? (row["Target Tahunan"] * 100).toFixed(0) + "%"
-                    : "-"
-                }</td>
-                <td width="60px">${row["Sasaran Tahunan"] || "-"}</td>
-                <td>${row["Sasaran Bulanan"] || "-"}</td>
-              `;
+        const targetValue = row["Target Tahunan"];
+        const targetClean = toNumber(targetValue);
 
-              // Tambahkan kolom per bulan
-              for (const bulan of bulanKeys) {
-                html += renderEditableCell(bulan, rowId, row[bulan]);
-              }
+        let html = `
+          <td>${index++}</td>
+          <td width="60px">${row["Indikator Utama"] || "-"}</td>
+          <td width="60px">${
+            targetClean !== null ? targetClean : targetValue || "-"
+          }</td>
+          <td width="60px">${row["Sasaran Tahunan"] || "-"}</td>
+          <td>${row["Sasaran Bulanan"] || "-"}</td>
+        `;
 
-              // Tombol Upload Bukti Dukung kecil + icon
-              const buktiLink = row["Bukti Dukung"];
-              html += `
-                <td class="text-center">
-                  ${
-                    buktiLink
-                      ? `<a href="${buktiLink}" target="_blank" class="btn btn-sm btn-outline-primary shadow-sm">
-                            <i class="bi bi-upload"></i> Upload
-                          </a>
-        `
-                      : `<span class="text-muted">-</span>`
-                  }
-                </td>`;
-
-              tr.innerHTML = html;
-              fragment.appendChild(tr);
-            }
-          }
+        for (const bulan of bulanKeys) {
+          html += renderEditableCell(bulan, rowId, row[bulan]);
         }
-        tableBody.innerHTML = "";
-        tableBody.appendChild(fragment);
-        bindInputEvents();
+
+        const buktiLink = row["Bukti Dukung"];
+        html += `
+          <td class="text-center">
+            ${
+              buktiLink
+                ? `<a href="${buktiLink}" target="_blank" class="btn btn-sm btn-outline-primary shadow-sm">
+                      <i class="bi bi-upload"></i> Upload
+                    </a>`
+                : `<span class="text-muted">-</span>`
+            }
+          </td>`;
+
+        tr.innerHTML = html;
+        fragment.appendChild(tr);
       }
+    }
+  }
+  tableBody.innerHTML = "";
+  tableBody.appendChild(fragment);
+  bindInputEvents();
+}
+
 
       function loadData() {
         const selectedFromURL = getQueryParam("kategori");
