@@ -58,6 +58,7 @@
         "anggraininovi84@gmail.com",
         "labpuskesmastrenggalek@gmail.com",
         "tatiksukaryati71@gmail.com",
+        "edohermawan1993@gmail.com",
   ];
 
   // Jika belum login → lempar balik ke index.html
