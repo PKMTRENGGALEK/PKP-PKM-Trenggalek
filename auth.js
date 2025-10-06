@@ -60,6 +60,7 @@
     "tatiksukaryati71@gmail.com",
     "edohermawan1993@gmail.com",
     "roeky.andari@gmail.com",
+    "tanjeung@gmail.com",
   ];
 
   // Jika belum login → lempar balik ke index.html
