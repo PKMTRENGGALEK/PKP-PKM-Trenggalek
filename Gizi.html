@@ -194,7 +194,16 @@
             return `<td class="text-center">${displayValue}</td>`;
             }
 
-            
+            function formatPercent(val) {
+                if (val === undefined || val === null || val === "") return "0%";
+                let num = parseFloat(
+                    String(val).replace(",", ".").replace("%", "").trim()
+                );
+                if (isNaN(num)) return val; // kalau bukan angka, tampilkan apa adanya
+                if (num <= 1) num *= 100;
+                return num.toFixed(2) + "%";
+                }
+
             function renderHeader(filterBulan) {
               const mainHeader = document.getElementById("tableHeaderMain");
               const subHeader = document.getElementById("tableHeaderSub");
@@ -255,17 +264,47 @@
                   <td>${clean["satuan sasaran"] || "-"}</td>
                   <td>${clean["total sasaran"] || "-"}</td>
                   <td>${clean["target sasaran"] || "-"}</td>
-                  <td>${clean["pencapaian (dalam satuan sasaran)"] || "0"}</td>
-                  <td>${clean["% cakupan rill"] || "0"}</td>
-                  <td>${clean["ketercapaian target tahun n"] || "0.00%"}</td>
+                  <td>${
+                    row["Pencapaian (dalam satuan sasaran)"]
+                        ? formatPercent(row["Pencapaian (dalam satuan sasaran)"])
+                        : "0%"
+                    }</td>
+
+                    <td>${
+                    row["% Cakupan Rill"]
+                        ? formatPercent(row["% Cakupan Rill"])
+                        : "0%"
+                    }</td>
+
+                    <td>${
+                    row["Ketercapaian Target Tahun N"]
+                        ? formatPercent(row["Ketercapaian Target Tahun N"])
+                        : "0%"
+                    }</td>
                 `;
             
                 if (filterBulan === "all") {
-                  for (const bulan in bulanKeys)
-                    for (const key of bulanKeys[bulan]) html += renderCell(row[key]);
-                } else {
-                  for (const key of bulanKeys[filterBulan]) html += renderCell(row[key]);
-                }
+                    for (const bulan in bulanKeys) {
+                        for (const key of bulanKeys[bulan]) {
+                        const value = row[key];
+                        if (key.toLowerCase().includes("capaian")) {
+                            html += renderCell(formatPercent(value));
+                        } else {
+                            html += renderCell(value);
+                        }
+                        }
+                    }
+                    } else {
+                    for (const key of bulanKeys[filterBulan]) {
+                        const value = row[key];
+                        if (key.toLowerCase().includes("capaian")) {
+                        html += renderCell(formatPercent(value));
+                        } else {
+                        html += renderCell(value);
+                        }
+                    }
+                    }
+
             
                 const tr = document.createElement("tr");
                 tr.innerHTML = html;
