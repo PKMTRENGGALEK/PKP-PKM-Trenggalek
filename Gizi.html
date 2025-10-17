@@ -127,23 +127,27 @@
             <label for="bulanFilter" class="form-label fw-semibold">Filter Bulan:</label>
             <select id="bulanFilter" class="form-select form-select-sm" style="width: 200px; display: inline-block;">
               <option value="all">Tampilkan Semua</option>
-              <option value="jan">Januari</option>
-              <option value="feb">Februari</option>
-              <option value="mar">Maret</option>
-              <option value="apr">April</option>
+              <option value="januari">Januari</option>
+              <option value="februari">Februari</option>
+              <option value="maret">Maret</option>
+              <option value="april">April</option>
               <option value="mei">Mei</option>
-              <option value="jun">Juni</option>
-              <option value="jul">Juli</option>
-              <option value="ags">Agustus</option>
-              <option value="sep">September</option>
-              <option value="okt">Oktober</option>
-              <option value="nov">November</option>
-              <option value="des">Desember</option>
+              <option value="juni">Juni</option>
+              <option value="juli">Juli</option>
+              <option value="agustus">Agustus</option>
+              <option value="september">September</option>
+              <option value="oktober">Oktober</option>
+              <option value="november">November</option>
+              <option value="desember">Desember</option>
+
             </select>
           </div>
-          <a href="https://docs.google.com/spreadsheets/d/10GrrZ9akiB1--1DGJdEJtSkEapot2uLtdOC6wWbxLGg/edit?gid=1752999212#gid=1752999212" target="_blank" class="btn btn-sm btn-outline-danger rounded shadow mb-2">Input Data</a>
-          <div class="table-responsive" style="font-size: 11px" shadow>
-            <table class="table table-bordered table-striped align-middle mb-0" id="programTable" shadow>
+          
+          <a href="https://docs.google.com/spreadsheets/d/10GrrZ9akiB1--1DGJdEJtSkEapot2uLtdOC6wWbxLGg/edit?gid=1752999212#gid=1752999212"
+            target="_blank" class="btn btn-sm btn-outline-danger rounded shadow mb-2">Input Data</a>
+          
+          <div class="table-responsive" style="font-size: 11px">
+            <table class="table table-bordered table-striped align-middle mb-0" id="programTable">
               <thead class="table-success text-center align-middle">
                 <tr id="tableHeaderMain"></tr>
                 <tr id="tableHeaderSub"></tr>
@@ -159,162 +163,249 @@
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
           <script>
-            const endpoint = "https://script.google.com/macros/s/AKfycbzcwt4BBtvpqEgCfY6wMp7HCfnzPOqqO1WF873oy6r-qB_cf_EhZi-0ZguiZYqMdZvb/exec";
-            
+            const endpoint =
+              "https://script.google.com/macros/s/AKfycbzcwt4BBtvpqEgCfY6wMp7HCfnzPOqqO1WF873oy6r-qB_cf_EhZi-0ZguiZYqMdZvb/exec";
+          
+            // pakai nama kolom sesuai spreadsheet
             const bulanKeys = {
-              jan: ["Jmlh_kunjungan_Jan", "Target_Jan", "capaian_Jan"],
-              feb: ["Jmlh_kunjungan_Feb", "Target_Feb", "capaian_Feb"],
-              mar: ["Jmlh_kunjungan_Mar", "Target_Mar", "capaian_Mar"],
-              apr: ["Jmlh_kunjungan_Apr", "Target_Apr", "capaian_Apr"],
-              mei: ["Jmlh_kunjungan_Mei", "Target_Mei", "capaian_Mei"],
-              jun: ["Jmlh_kunjungan_Jun", "Target_Jun", "capaian_Jun"],
-              jul: ["Jmlh_kunjungan_Jul", "Target_Jul", "capaian_Jul"],
-              ags: ["Jmlh_kunjungan_Ags", "Target_Ags", "capaian_Ags"],
-              sep: ["Jmlh_kunjungan_Sep", "Target_Sep", "capaian_Sep"],
-              okt: ["Jmlh_kunjungan_Okt", "Target_Okt", "capaian_Okt"],
-              nov: ["Jmlh_kunjungan_Nov", "Target_Nov", "capaian_Nov"],
-              des: ["Jmlh_kunjungan_Des", "Target_Des", "capaian_Des"]
+              januari: [
+                "Total Sasaran Januari",
+                "Target Januari",
+                "Capaian Januari",
+                "Cakupan Rill Januari",
+              ],
+              februari: [
+                "Total Sasaran Februari",
+                "Target Februari",
+                "Capaian Februari",
+                "Cakupan Rill Februari",
+              ],
+              maret: [
+                "Total Sasaran Maret",
+                "Target Maret",
+                "Capaian Maret",
+                "Cakupan Rill Maret",
+              ],
+              april: [
+                "Total Sasaran April",
+                "Target April",
+                "Capaian April",
+                "Cakupan Rill April",
+              ],
+              mei: [
+                "Total Sasaran Mei",
+                "Target Mei",
+                "Capaian Mei",
+                "Cakupan Rill Mei",
+              ],
+              juni: [
+                "Total Sasaran Juni",
+                "Target Juni",
+                "Capaian Juni",
+                "Cakupan Rill Juni",
+              ],
+              juli: [
+                "Total Sasaran Juli",
+                "Target Juli",
+                "Capaian Juli",
+                "Cakupan Rill Juli",
+              ],
+              agustus: [
+                "Total Sasaran Agustus",
+                "Target Agustus",
+                "Capaian Agustus",
+                "Cakupan Rill Agustus",
+              ],
+              september: [
+                "Total Sasaran September",
+                "Target September",
+                "Capaian September",
+                "Cakupan Rill September",
+              ],
+              oktober: [
+                "Total Sasaran Oktober",
+                "Target Oktober",
+                "Capaian Oktober",
+                "Cakupan Rill Oktober",
+              ],
+              november: [
+                "Total Sasaran November",
+                "Target November",
+                "Capaian November",
+                "Cakupan Rill November",
+              ],
+              desember: [
+                "Total Sasaran Desember",
+                "Target Desember",
+                "Capaian Desember",
+                "Cakupan Rill Desember",
+              ],
             };
-            
+          
             const bulanLabel = {
-              jan: "Januari", feb: "Februari", mar: "Maret", apr: "April",
-              mei: "Mei", jun: "Juni", jul: "Juli", ags: "Agustus",
-              sep: "September", okt: "Oktober", nov: "November", des: "Desember"
+              januari: "Januari",
+              februari: "Februari",
+              maret: "Maret",
+              april: "April",
+              mei: "Mei",
+              juni: "Juni",
+              juli: "Juli",
+              agustus: "Agustus",
+              september: "September",
+              oktober: "Oktober",
+              november: "November",
+              desember: "Desember",
             };
-            
+            const bulanMap = {
+              jan: "januari",
+              feb: "februari",
+              mar: "maret",
+              apr: "april",
+              mei: "mei",
+              jun: "juni",
+              jul: "juli",
+              ags: "agustus",
+              sep: "september",
+              okt: "oktober",
+              nov: "november",
+              des: "desember",
+              all: "all"
+            };
+
+            document.getElementById("bulanFilter").addEventListener("change", (e) => {
+              const key = bulanMap[e.target.value] || "all";
+              renderTable(allData, key);
+            });
+
             let allData = [];
-            
+          
             function renderCell(value) {
-            if (value === null || value === undefined || value === "") return `<td class="text-center">-</td>`;
-
-            // cek apakah value bisa diubah ke angka
-            const num = parseFloat(value);
-            const displayValue = !isNaN(num) ? Math.round(num) : value;
-
-            return `<td class="text-center">${displayValue}</td>`;
+              if (value === null || value === undefined || value === "")
+                return `<td class="text-center">-</td>`;
+              const num = parseFloat(value);
+              const displayValue = !isNaN(num)
+                ? Math.round(num * 100) / 100
+                : value;
+              return `<td class="text-center">${displayValue}</td>`;
             }
-
+          
             function formatPercent(val) {
-                if (val === undefined || val === null || val === "") return "0%";
-                let num = parseFloat(
-                    String(val).replace(",", ".").replace("%", "").trim()
-                );
-                if (isNaN(num)) return val; // kalau bukan angka, tampilkan apa adanya
-                if (num <= 1) num *= 100;
-                return num.toFixed(2) + "%";
-                }
-
+              if (val === undefined || val === null || val === "") return "0%";
+              let num = parseFloat(String(val).replace(",", ".").replace("%", "").trim());
+              if (isNaN(num)) return val;
+              if (num <= 1) num *= 100;
+              return num.toFixed(2) + "%";
+            }
+          
             function renderHeader(filterBulan) {
               const mainHeader = document.getElementById("tableHeaderMain");
               const subHeader = document.getElementById("tableHeaderSub");
-            
+          
               let mainHTML = `
-                <th rowspan="2"width="50px" class="text-wrap">No</th>
-                <th rowspan="2"width="100px" class="text-wrap">Klaster</th>
-                <th rowspan="2"width="100px" class="text-wrap">Kegiatan</th>
-                <th rowspan="2" width="100px" class="text-wrap">Indikator Kerja</th>
-                <th rowspan="2"width="100px" class="text-wrap">Target 2025</th>
-                <th rowspan="2"width="100px" class="text-wrap">Satuan Sasaran</th>
-                <th rowspan="2" width="100px" class="text-wrap">Total Sasaran</th>
-                <th rowspan="2" width="100px" class="text-wrap">Target Sasaran</th>
-                <th rowspan="2" width="100px" class="text-wrap">Pencapaian (dalam satuan sasaran)</th>
-                <th rowspan="2" width="100px" class="text-wrap">% Cakupan Rill</th>
-                <th rowspan="2"width="100px" class="text-wrap">Ketercapaian Target Tahun N</th>
+                <th rowspan="2" width="50px">No</th>
+                <th rowspan="2">Klaster</th>
+                <th rowspan="2">Induk</th>
+                <th rowspan="2">Sub</th>
+                <th rowspan="2">Kategori</th>
+                <th rowspan="2">Kegiatan</th>
+                <th rowspan="2">Indikator Kerja</th>
+                <th rowspan="2">Target 2025</th>
               `;
-            
+          
               let subHTML = "";
-            
+          
               if (filterBulan === "all") {
                 for (const key in bulanKeys) {
-                  mainHTML += `<th colspan="3" class="table-success">${bulanLabel[key]}</th>`;
+                  const label = bulanLabel[key];
+                  mainHTML += `<th colspan="4" class="table-success">${label}</th>`;
                   subHTML += `
-                    <th width="100px" class="text-wrap">Jmlh Kunjungan</th>
-                    <th width="100px" class="text-wrap">Target</th>
-                    <th width="100px" class="text-wrap">Capaian</th>
+                    <th>Total Sasaran</th>
+                    <th>Target</th>
+                    <th>Capaian</th>
+                    <th>Cakupan Rill</th>
                   `;
                 }
               } else {
-                mainHTML += `<th colspan="3" class="table-success">Capaian Bulan ${bulanLabel[filterBulan]}</th>`;
+                const label = bulanLabel[filterBulan];
+                mainHTML += `<th colspan="4" class="table-success">${label}</th>`;
                 subHTML += `
-                  <th width="100px" class="text-wrap">Jmlh Kunjungan</th>
-                  <th width="100px" class="text-wrap">Target</th>
-                  <th width="100px" class="text-wrap">Capaian</th>
+                  <th>Total Sasaran ${label}</th>
+                  <th>Target ${label}</th>
+                  <th>Capaian ${label}</th>
+                  <th>Cakupan Rill ${label}</th>
                 `;
               }
-            
+          
               mainHeader.innerHTML = mainHTML;
               subHeader.innerHTML = subHTML;
             }
-            
+          
             function renderTable(data, filterBulan = "all") {
               const tableBody = document.getElementById("tableBody");
               tableBody.innerHTML = "";
               const fragment = document.createDocumentFragment();
               let index = 1;
-            
+          
+              renderHeader(filterBulan);
+          
+              if (!data || data.length === 0) {
+                const tr = document.createElement("tr");
+                let html = `<td colspan="8" class="text-center">Tidak ada data</td>`;
+                if (filterBulan === "all") {
+                  for (const key in bulanKeys)
+                    html += `<td colspan="4" class="text-center">-</td>`;
+                } else {
+                  html += `<td colspan="4" class="text-center">-</td>`;
+                }
+                tr.innerHTML = html;
+                tableBody.appendChild(tr);
+                return;
+              }
+          
               for (const row of data) {
-                const clean = {};
-                for (const key in row) clean[key.trim().toLowerCase()] = row[key];
                 let html = `
                   <td>${index++}</td>
-                  <td>${clean["klaster"] || "-"}</td>
-                  <td>${clean["kegiatan"] || "-"}</td>
-                  <td>${clean["indikator kerja"] || "-"}</td>
-                  <td>${clean["target 2025"] || "-"}</td>
-                  <td>${clean["satuan sasaran"] || "-"}</td>
-                  <td>${clean["total sasaran"] || "-"}</td>
-                  <td>${clean["target sasaran"] || "-"}</td>
-                  <td>${
-                    row["Pencapaian (dalam satuan sasaran)"]
-                        ? formatPercent(row["Pencapaian (dalam satuan sasaran)"])
-                        : "0%"
-                    }</td>
-
-                    <td>${
-                    row["% Cakupan Rill"]
-                        ? formatPercent(row["% Cakupan Rill"])
-                        : "0%"
-                    }</td>
-
-                    <td>${
-                    row["Ketercapaian Target Tahun N"]
-                        ? formatPercent(row["Ketercapaian Target Tahun N"])
-                        : "0%"
-                    }</td>
+                  <td>${row["Klaster"] || "-"}</td>
+                  <td>${row["Induk"] || "-"}</td>
+                  <td>${row["Sub"] || "-"}</td>
+                  <td>${row["Kategori"] || "-"}</td>
+                  <td>${row["Kegiatan"] || "-"}</td>
+                  <td>${row["Indikator Kerja"] || "-"}</td>
+                  <td>${row["Target 2025"] || "-"}</td>
                 `;
-            
+          
                 if (filterBulan === "all") {
-                    for (const bulan in bulanKeys) {
-                        for (const key of bulanKeys[bulan]) {
-                        const value = row[key];
-                        if (key.toLowerCase().includes("capaian")) {
-                            html += renderCell(formatPercent(value));
-                        } else {
-                            html += renderCell(value);
-                        }
-                        }
-                    }
-                    } else {
-                    for (const key of bulanKeys[filterBulan]) {
-                        const value = row[key];
-                        if (key.toLowerCase().includes("capaian")) {
+                  for (const bulan in bulanKeys) {
+                    for (const key of bulanKeys[bulan]) {
+                      const value = row[key];
+                      if (
+                        key.toLowerCase().includes("capaian") ||
+                        key.toLowerCase().includes("cakupan")
+                      )
                         html += renderCell(formatPercent(value));
-                        } else {
-                        html += renderCell(value);
-                        }
+                      else html += renderCell(value);
                     }
-                    }
-
-            
+                  }
+                } else {
+                  for (const key of bulanKeys[filterBulan]) {
+                    const value = row[key];
+                    if (
+                      key.toLowerCase().includes("capaian") ||
+                      key.toLowerCase().includes("cakupan")
+                    )
+                      html += renderCell(formatPercent(value));
+                    else html += renderCell(value);
+                  }
+                }
+          
                 const tr = document.createElement("tr");
                 tr.innerHTML = html;
                 fragment.appendChild(tr);
               }
-            
+          
               tableBody.appendChild(fragment);
-              renderHeader(filterBulan);
             }
-            
+          
             function loadData(defaultBulan) {
               const tableBody = document.getElementById("tableBody");
               tableBody.innerHTML = `
@@ -322,32 +413,45 @@
                   <div class="spinner-border text-success" role="status"></div>
                   <div class="mt-2 text-success fw-semibold">Memuat data...</div>
                 </td></tr>`;
-            
+          
               fetch(endpoint)
-                .then(res => res.json())
-                .then(data => {
+                .then((res) => res.json())
+                .then((data) => {
                   allData = data;
                   renderTable(allData, defaultBulan);
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.error(err);
                   tableBody.innerHTML = `<tr><td colspan="25" class="text-danger text-center">Gagal memuat data.</td></tr>`;
                 });
             }
-            
-            // 🔹 Event filter bulan
+          
             document.getElementById("bulanFilter").addEventListener("change", (e) => {
               renderTable(allData, e.target.value);
             });
-            
-            // 🔹 Default ke bulan sekarang
-            const bulanList = ["jan","feb","mar","apr","mei","jun","jul","ags","sep","okt","nov","des"];
+          
+            const bulanList = [
+              "januari",
+              "februari",
+              "maret",
+              "april",
+              "mei",
+              "juni",
+              "juli",
+              "agustus",
+              "september",
+              "oktober",
+              "november",
+              "desember",
+            ];
+          
             const bulanSekarang = bulanList[new Date().getMonth()];
             document.getElementById("bulanFilter").value = bulanSekarang;
-            
-            // 🔹 Load data awal
+          
             loadData(bulanSekarang);
-            </script>
+          </script>
+          
+          
           
           
 
