@@ -146,315 +146,201 @@
           <a href="https://docs.google.com/spreadsheets/d/10GrrZ9akiB1--1DGJdEJtSkEapot2uLtdOC6wWbxLGg/edit?gid=1752999212#gid=1752999212"
             target="_blank" class="btn btn-sm btn-outline-danger rounded shadow mb-2">Input Data</a>
           
-          <div class="table-responsive" style="font-size: 11px">
-            <table class="table table-bordered table-striped align-middle mb-0" id="programTable">
-              <thead class="table-success text-center align-middle">
-                <tr id="tableHeaderMain"></tr>
-                <tr id="tableHeaderSub"></tr>
-              </thead>
-              <tbody id="tableBody">
-                <tr><td colspan="25" class="text-center">Memuat data...</td></tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <!-- Scripts -->
-          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-          <script>
-            const endpoint =
-              "https://script.google.com/macros/s/AKfycbzcwt4BBtvpqEgCfY6wMp7HCfnzPOqqO1WF873oy6r-qB_cf_EhZi-0ZguiZYqMdZvb/exec";
-          
-            // pakai nama kolom sesuai spreadsheet
-            const bulanKeys = {
-              januari: [
-                "Total Sasaran Januari",
-                "Target Januari",
-                "Capaian Januari",
-                "Cakupan Rill Januari",
-              ],
-              februari: [
-                "Total Sasaran Februari",
-                "Target Februari",
-                "Capaian Februari",
-                "Cakupan Rill Februari",
-              ],
-              maret: [
-                "Total Sasaran Maret",
-                "Target Maret",
-                "Capaian Maret",
-                "Cakupan Rill Maret",
-              ],
-              april: [
-                "Total Sasaran April",
-                "Target April",
-                "Capaian April",
-                "Cakupan Rill April",
-              ],
-              mei: [
-                "Total Sasaran Mei",
-                "Target Mei",
-                "Capaian Mei",
-                "Cakupan Rill Mei",
-              ],
-              juni: [
-                "Total Sasaran Juni",
-                "Target Juni",
-                "Capaian Juni",
-                "Cakupan Rill Juni",
-              ],
-              juli: [
-                "Total Sasaran Juli",
-                "Target Juli",
-                "Capaian Juli",
-                "Cakupan Rill Juli",
-              ],
-              agustus: [
-                "Total Sasaran Agustus",
-                "Target Agustus",
-                "Capaian Agustus",
-                "Cakupan Rill Agustus",
-              ],
-              september: [
-                "Total Sasaran September",
-                "Target September",
-                "Capaian September",
-                "Cakupan Rill September",
-              ],
-              oktober: [
-                "Total Sasaran Oktober",
-                "Target Oktober",
-                "Capaian Oktober",
-                "Cakupan Rill Oktober",
-              ],
-              november: [
-                "Total Sasaran November",
-                "Target November",
-                "Capaian November",
-                "Cakupan Rill November",
-              ],
-              desember: [
-                "Total Sasaran Desember",
-                "Target Desember",
-                "Capaian Desember",
-                "Cakupan Rill Desember",
-              ],
-            };
-          
-            const bulanLabel = {
-              januari: "Januari",
-              februari: "Februari",
-              maret: "Maret",
-              april: "April",
-              mei: "Mei",
-              juni: "Juni",
-              juli: "Juli",
-              agustus: "Agustus",
-              september: "September",
-              oktober: "Oktober",
-              november: "November",
-              desember: "Desember",
-            };
-            const bulanMap = {
-              jan: "januari",
-              feb: "februari",
-              mar: "maret",
-              apr: "april",
-              mei: "mei",
-              jun: "juni",
-              jul: "juli",
-              ags: "agustus",
-              sep: "september",
-              okt: "oktober",
-              nov: "november",
-              des: "desember",
-              all: "all"
-            };
-
-            document.getElementById("bulanFilter").addEventListener("change", (e) => {
-              const key = bulanMap[e.target.value] || "all";
-              renderTable(allData, key);
-            });
-
-            let allData = [];
-          
-            function renderCell(value) {
-              if (value === null || value === undefined || value === "")
-                return `<td class="text-center">-</td>`;
-              const num = parseFloat(value);
-              const displayValue = !isNaN(num)
-                ? Math.round(num * 100) / 100
-                : value;
-              return `<td class="text-center">${displayValue}</td>`;
-            }
-          
-            function formatPercent(val) {
-              if (val === undefined || val === null || val === "") return "0%";
-              let num = parseFloat(String(val).replace(",", ".").replace("%", "").trim());
-              if (isNaN(num)) return val;
-              if (num <= 1) num *= 100;
-              return num.toFixed(2) + "%";
-            }
-          
-            function renderHeader(filterBulan) {
-              const mainHeader = document.getElementById("tableHeaderMain");
-              const subHeader = document.getElementById("tableHeaderSub");
-          
-              let mainHTML = `
-                <th rowspan="2" width="50px">No</th>
-                <th rowspan="2">Klaster</th>
-                <th rowspan="2">Induk</th>
-                <th rowspan="2">Sub</th>
-                <th rowspan="2">Kategori</th>
-                <th rowspan="2">Kegiatan</th>
-                <th rowspan="2">Indikator Kerja</th>
-                <th rowspan="2">Target 2025</th>
-              `;
-          
-              let subHTML = "";
-          
-              if (filterBulan === "all") {
-                for (const key in bulanKeys) {
-                  const label = bulanLabel[key];
-                  mainHTML += `<th colspan="4" class="table-success">${label}</th>`;
-                  subHTML += `
-                    <th>Total Sasaran</th>
-                    <th>Target</th>
-                    <th>Capaian</th>
-                    <th>Cakupan Rill</th>
-                  `;
-                }
-              } else {
-                const label = bulanLabel[filterBulan];
-                mainHTML += `<th colspan="4" class="table-success">${label}</th>`;
-                subHTML += `
-                  <th>Total Sasaran ${label}</th>
-                  <th>Target ${label}</th>
-                  <th>Capaian ${label}</th>
-                  <th>Cakupan Rill ${label}</th>
-                `;
+            <div class="table-responsive" style="font-size: 11px">
+              <table class="table table-bordered table-striped align-middle mb-0" id="programTable">
+                <thead class="table-success text-center align-middle">
+                  <tr id="tableHeaderMain"></tr>
+                  <tr id="tableHeaderSub"></tr>
+                </thead>
+                <tbody id="tableBody">
+                  <tr><td colspan="25" class="text-center">Memuat data...</td></tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Scripts -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+            <script>
+              const endpoint =
+                "https://script.google.com/macros/s/AKfycbzcwt4BBtvpqEgCfY6wMp7HCfnzPOqqO1WF873oy6r-qB_cf_EhZi-0ZguiZYqMdZvb/exec";
+            
+              const bulanKeys = {
+                januari: ["Total Sasaran Januari", "Target Januari", "Capaian Januari", "Cakupan Rill Januari"],
+                februari: ["Total Sasaran Februari", "Target Februari", "Capaian Februari", "Cakupan Rill Februari"],
+                maret: ["Total Sasaran Maret", "Target Maret", "Capaian Maret", "Cakupan Rill Maret"],
+                april: ["Total Sasaran April", "Target April", "Capaian April", "Cakupan Rill April"],
+                mei: ["Total Sasaran Mei", "Target Mei", "Capaian Mei", "Cakupan Rill Mei"],
+                juni: ["Total Sasaran Juni", "Target Juni", "Capaian Juni", "Cakupan Rill Juni"],
+                juli: ["Total Sasaran Juli", "Target Juli", "Capaian Juli", "Cakupan Rill Juli"],
+                agustus: ["Total Sasaran Agustus", "Target Agustus", "Capaian Agustus", "Cakupan Rill Agustus"],
+                september: ["Total Sasaran September", "Target September", "Capaian September", "Cakupan Rill September"],
+                oktober: ["Total Sasaran Oktober", "Target Oktober", "Capaian Oktober", "Cakupan Rill Oktober"],
+                november: ["Total Sasaran November", "Target November", "Capaian November", "Cakupan Rill November"],
+                desember: ["Total Sasaran Desember", "Target Desember", "Capaian Desember", "Cakupan Rill Desember"],
+              };
+            
+              const bulanLabel = {
+                januari: "Januari", februari: "Februari", maret: "Maret", april: "April", mei: "Mei",
+                juni: "Juni", juli: "Juli", agustus: "Agustus", september: "September",
+                oktober: "Oktober", november: "November", desember: "Desember",
+              };
+            
+              let allData = [];
+            
+              function getKategoriCakupan(value) {
+                const num = parseFloat(value);
+                if (isNaN(num)) return "-";
+                if (num >= 97.5) return "Sangat Rendah";
+                if (num >= 90.1) return "Sedang";
+                if (num >= 80.1) return "Tinggi";
+                if (num >= 70.1) return "Sangat Tinggi";
+                return "Rendah";
               }
-          
-              mainHeader.innerHTML = mainHTML;
-              subHeader.innerHTML = subHTML;
-            }
-          
-            function renderTable(data, filterBulan = "all") {
-              const tableBody = document.getElementById("tableBody");
-              tableBody.innerHTML = "";
-              const fragment = document.createDocumentFragment();
-              let index = 1;
-          
-              renderHeader(filterBulan);
-          
-              if (!data || data.length === 0) {
-                const tr = document.createElement("tr");
-                let html = `<td colspan="8" class="text-center">Tidak ada data</td>`;
+            
+              function renderCell(value) {
+                if (value === null || value === undefined || value === "")
+                  return `<td class="text-center">-</td>`;
+                const num = parseFloat(value);
+                const displayValue = !isNaN(num)
+                  ? Math.round(num * 100) / 100
+                  : value;
+                return `<td class="text-center">${displayValue}</td>`;
+              }
+            
+              function formatPercent(val) {
+                if (val === undefined || val === null || val === "") return "0%";
+                let num = parseFloat(String(val).replace(",", ".").replace("%", "").trim());
+                if (isNaN(num)) return val;
+                if (num <= 1) num *= 100;
+                return num.toFixed(2) + "%";
+              }
+            
+              function renderHeader(filterBulan) {
+                const mainHeader = document.getElementById("tableHeaderMain");
+                const subHeader = document.getElementById("tableHeaderSub");
+            
+                let mainHTML = `
+                  <th rowspan="2" width="50px">No</th>
+                  <th rowspan="2">Klaster</th>
+                  <th rowspan="2">Induk</th>
+                  <th rowspan="2">Sub</th>
+                  <th rowspan="2">Kategori</th>
+                  <th rowspan="2">Kegiatan</th>
+                  <th rowspan="2">Indikator Kerja</th>
+                  <th rowspan="2">Target 2025</th>
+                `;
+                let subHTML = "";
+            
                 if (filterBulan === "all") {
-                  for (const key in bulanKeys)
-                    html += `<td colspan="4" class="text-center">-</td>`;
+                  for (const key in bulanKeys) {
+                    const label = bulanLabel[key];
+                    mainHTML += `<th colspan="4" class="table-success">${label}</th>`;
+                    subHTML += `<th>Total Sasaran</th><th>Target</th><th>Capaian</th><th>Cakupan Rill</th>`;
+                  }
                 } else {
-                  html += `<td colspan="4" class="text-center">-</td>`;
+                  const label = bulanLabel[filterBulan];
+                  mainHTML += `<th colspan="4" class="table-success">${label}</th>`;
+                  subHTML += `<th>Total Sasaran ${label}</th><th>Target ${label}</th><th>Capaian ${label}</th><th>Cakupan Rill ${label}</th>`;
                 }
-                tr.innerHTML = html;
-                tableBody.appendChild(tr);
-                return;
+            
+                mainHTML += `<th rowspan="2">Keterangan</th>`;
+            
+                mainHeader.innerHTML = mainHTML;
+                subHeader.innerHTML = subHTML;
               }
-          
-              for (const row of data) {
-                let html = `
-                  <td>${index++}</td>
-                  <td>${row["Klaster"] || "-"}</td>
-                  <td>${row["Induk"] || "-"}</td>
-                  <td>${row["Sub"] || "-"}</td>
-                  <td>${row["Kategori"] || "-"}</td>
-                  <td>${row["Kegiatan"] || "-"}</td>
-                  <td>${row["Indikator Kerja"] || "-"}</td>
-                  <td>${row["Target 2025"] || "-"}</td>
-                `;
-          
-                if (filterBulan === "all") {
-                  for (const bulan in bulanKeys) {
-                    for (const key of bulanKeys[bulan]) {
+            
+              function renderTable(data, filterBulan = "all") {
+                const tableBody = document.getElementById("tableBody");
+                tableBody.innerHTML = "";
+                const fragment = document.createDocumentFragment();
+                let index = 1;
+            
+                renderHeader(filterBulan);
+            
+                if (!data || data.length === 0) {
+                  const tr = document.createElement("tr");
+                  tr.innerHTML = `<td colspan="25" class="text-center">Tidak ada data</td>`;
+                  tableBody.appendChild(tr);
+                  return;
+                }
+            
+                for (const row of data) {
+                  let html = `
+                    <td>${index++}</td>
+                    <td>${row["Klaster"] || "-"}</td>
+                    <td>${row["Induk"] || "-"}</td>
+                    <td>${row["Sub"] || "-"}</td>
+                    <td>${row["Kategori"] || "-"}</td>
+                    <td>${row["Kegiatan"] || "-"}</td>
+                    <td>${row["Indikator Kerja"] || "-"}</td>
+                    <td>${row["Target 2025"] || "-"}</td>
+                  `;
+            
+                  let nilaiCakupan = null;
+            
+                  if (filterBulan === "all") {
+                    for (const bulan in bulanKeys) {
+                      for (const key of bulanKeys[bulan]) {
+                        const value = row[key];
+                        if (key.toLowerCase().includes("cakupan")) nilaiCakupan = value;
+                        if (key.toLowerCase().includes("capaian") || key.toLowerCase().includes("cakupan"))
+                          html += renderCell(formatPercent(value));
+                        else html += renderCell(value);
+                      }
+                    }
+                  } else {
+                    for (const key of bulanKeys[filterBulan]) {
                       const value = row[key];
-                      if (
-                        key.toLowerCase().includes("capaian") ||
-                        key.toLowerCase().includes("cakupan")
-                      )
+                      if (key.toLowerCase().includes("cakupan")) nilaiCakupan = value;
+                      if (key.toLowerCase().includes("capaian") || key.toLowerCase().includes("cakupan"))
                         html += renderCell(formatPercent(value));
                       else html += renderCell(value);
                     }
                   }
-                } else {
-                  for (const key of bulanKeys[filterBulan]) {
-                    const value = row[key];
-                    if (
-                      key.toLowerCase().includes("capaian") ||
-                      key.toLowerCase().includes("cakupan")
-                    )
-                      html += renderCell(formatPercent(value));
-                    else html += renderCell(value);
-                  }
+            
+                  html += `<td class="text-center">${getKategoriCakupan(nilaiCakupan)}</td>`;
+            
+                  const tr = document.createElement("tr");
+                  tr.innerHTML = html;
+                  fragment.appendChild(tr);
                 }
-          
-                const tr = document.createElement("tr");
-                tr.innerHTML = html;
-                fragment.appendChild(tr);
+            
+                tableBody.appendChild(fragment);
               }
-          
-              tableBody.appendChild(fragment);
-            }
-          
-            function loadData(defaultBulan) {
-              const tableBody = document.getElementById("tableBody");
-              tableBody.innerHTML = `
-                <tr><td colspan="25" class="text-center py-4">
-                  <div class="spinner-border text-success" role="status"></div>
-                  <div class="mt-2 text-success fw-semibold">Memuat data...</div>
-                </td></tr>`;
-          
-              fetch(endpoint)
-                .then((res) => res.json())
-                .then((data) => {
-                  allData = data;
-                  renderTable(allData, defaultBulan);
-                })
-                .catch((err) => {
-                  console.error(err);
-                  tableBody.innerHTML = `<tr><td colspan="25" class="text-danger text-center">Gagal memuat data.</td></tr>`;
-                });
-            }
-          
-            document.getElementById("bulanFilter").addEventListener("change", (e) => {
-              renderTable(allData, e.target.value);
-            });
-          
-            const bulanList = [
-              "januari",
-              "februari",
-              "maret",
-              "april",
-              "mei",
-              "juni",
-              "juli",
-              "agustus",
-              "september",
-              "oktober",
-              "november",
-              "desember",
-            ];
-          
-            const bulanSekarang = bulanList[new Date().getMonth()];
-            document.getElementById("bulanFilter").value = bulanSekarang;
-          
-            loadData(bulanSekarang);
-          </script>
-          
-          
-          
-          
-
+            
+              function loadData(defaultBulan) {
+                const tableBody = document.getElementById("tableBody");
+                tableBody.innerHTML = `
+                  <tr><td colspan="25" class="text-center py-4">
+                    <div class="spinner-border text-success" role="status"></div>
+                    <div class="mt-2 text-success fw-semibold">Memuat data...</div>
+                  </td></tr>`;
+            
+                fetch(endpoint)
+                  .then((res) => res.json())
+                  .then((data) => {
+                    allData = data;
+                    renderTable(allData, defaultBulan);
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                    tableBody.innerHTML = `<tr><td colspan="25" class="text-danger text-center">Gagal memuat data.</td></tr>`;
+                  });
+              }
+            
+              document.getElementById("bulanFilter").addEventListener("change", (e) => {
+                const key = e.target.value || "all";
+                renderTable(allData, key);
+              });
+            
+              const bulanList = ["januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september", "oktober", "november", "desember"];
+              const bulanSekarang = bulanList[new Date().getMonth()];
+              document.getElementById("bulanFilter").value = bulanSekarang;
+              loadData(bulanSekarang);
+            </script>
+            
     <!-- Modal -->
     <div
       class="modal fade"
