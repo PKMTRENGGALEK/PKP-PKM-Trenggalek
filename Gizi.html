@@ -188,6 +188,7 @@
               };
             
               let allData = [];
+              let rows = []; // 🟢 Tambahan: simpan data aktif global
             
               function getKategoriCakupan(value) {
                 const num = parseFloat(value);
@@ -266,14 +267,24 @@
                   return;
                 }
             
+                rows = data; // 🟢 Simpan semua data untuk referensi modal
+            
                 for (const row of data) {
                   let html = `
-                    <td>${index++}</td>
+                    <td>${index}</td>
                     <td>${row["Klaster"] || "-"}</td>
                     <td>${row["Induk"] || "-"}</td>
                     <td>${row["Sub"] || "-"}</td>
                     <td>${row["Kategori"] || "-"}</td>
-                    <td>${row["Kegiatan"] || "-"}</td>
+                    <td>
+                      ${row["Kegiatan"] || "-"}
+                      <button 
+                        class="btn btn-sm btn-outline-primary py-0 px-1 show-info-btn shadow ml-2"
+                        data-type="DO" 
+                        data-id="${index}">
+                        DO
+                      </button>
+                    </td>
                     <td>${row["Indikator Kerja"] || "-"}</td>
                     <td>${row["Target 2025"] || "-"}</td>
                   `;
@@ -305,6 +316,7 @@
                   const tr = document.createElement("tr");
                   tr.innerHTML = html;
                   fragment.appendChild(tr);
+                  index++;
                 }
             
                 tableBody.appendChild(fragment);
@@ -341,81 +353,36 @@
               loadData(bulanSekarang);
             </script>
             
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="infoModal"
-      tabindex="-1"
-      aria-labelledby="infoModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="infoModalLabel">Info</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Tutup"
-            ></button>
-          </div>
-          <div class="modal-body" id="modalContent">...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SCRIPT: letakkan di bawah semua konten -->
-    <script>
-      document.addEventListener("click", function (e) {
-        if (e.target.classList.contains("show-info-btn")) {
-          const type = e.target.dataset.type;
-          const id = e.target.dataset.id;
-
-          const row = rows.find((r) => String(r["No"]) === String(id)); // <= Perbaikan disini
-
-          if (!row) return;
-
-          const content = type === "DO" ? row["DO"] : row["Cara Penghitungan"];
-          document.getElementById("modalContent").innerHTML =
-            content || "<em>Belum ada data</em>";
-          document.getElementById(
-            "infoModalLabel"
-          ).textContent = `${type} - No ${id}`;
-
-          const modal = new bootstrap.Modal(
-            document.getElementById("infoModal")
-          );
-          modal.show();
-        }
-      });
-    </script>
-    <script>
-      document
-        .getElementById("btnExportExcel")
-        .addEventListener("click", function () {
-          // Clone tabel agar tidak mengubah tampilan asli
-          const tableClone = document
-            .getElementById("programTable")
-            .cloneNode(true);
-
-          // Ganti semua <input> dengan nilai text
-          tableClone.querySelectorAll("input").forEach((input) => {
-            const td = input.parentElement;
-            td.textContent = input.value; // pakai value yang ada sekarang
-          });
-
-          // Convert clone tabel ke worksheet Excel
-          const wb = XLSX.utils.table_to_book(tableClone, {
-            sheet: "Data Program",
-          });
-
-          // Simpan file Excel
-          XLSX.writeFile(
-            wb,
-            `Data_Program_${new Date().toISOString().slice(0, 10)}.xlsx`
-          );
-        });
-    </script>
+            <!-- 🟢 Modal untuk DO -->
+            <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Info</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                  </div>
+                  <div class="modal-body" id="modalContent">...</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 🟢 Script Modal -->
+            <script>
+              document.addEventListener("click", function (e) {
+                if (e.target.classList.contains("show-info-btn")) {
+                  const id = e.target.dataset.id;
+                  const row = rows[parseInt(id) - 1]; // cari berdasarkan nomor urut tabel
+                  if (!row) return;
+            
+                  const content = row["DO"] || "<em>Belum ada data</em>";
+                  document.getElementById("modalContent").innerHTML = content;
+                  document.getElementById("infoModalLabel").textContent = `Detail DO - No ${id}`;
+            
+                  const modal = new bootstrap.Modal(document.getElementById("infoModal"));
+                  modal.show();
+                }
+              });
+            </script>
+            
   </body>
 </html>
