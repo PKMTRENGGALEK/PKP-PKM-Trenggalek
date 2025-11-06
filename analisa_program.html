@@ -474,6 +474,9 @@
                       <th rowspan="2" width="220px" class="text-wrap">
                         Hasil Tindak Lanjut
                       </th>
+                      <th rowspan="2" width="220px" class="text-wrap">
+                        Bukti Dukung
+                      </th>
                     </tr>
                     <tr>
                       <th>Bulan Lalu</th>
@@ -730,7 +733,8 @@
                 originalData = data;
 
                 console.log("Contoh data:", data[0]); // ⬅️ Tambahkan ini untuk lihat struktur field
-
+                console.log("Kolom tersedia:", Object.keys(data[0]));
+                console.log("Isi Link:", data[0]?.Link);
                 // Buat dropdown kategori
                 const kategoriSet = new Set(
                   data.map((item) => item.kategori || "Tanpa kategori")
@@ -807,8 +811,8 @@
           const program = rowsInSub[0].Induk || "";
 
           rows += `
-            <tr><td colspan="13" class="fw-bold text-danger" style="background-color: #f8d7da;">${program}</td></tr>
-            <tr><td colspan="13" class="fw-semibold text-primary" style="background-color: #e2e3f3;">${sub}</td></tr>
+            <tr><td colspan="14" class="fw-bold text-danger" style="background-color: #f8d7da;">${program}</td></tr>
+            <tr><td colspan="14" class="fw-semibold text-primary" style="background-color: #e2e3f3;">${sub}</td></tr>
           `;
 
           rowsInSub.forEach((row) => {
@@ -1169,6 +1173,13 @@
             const masalahBulanIni = row[kolomMasalah] || "";
             const analisaBulanIni = row[kolomAnalisa] || "";
             const RTLBulanIni = row[kolomRTL] || "";
+            const linkValue = (row["Link"] || "").trim();
+            const linkCell =
+              linkValue && linkValue.startsWith("http")
+                ? `<a href="${linkValue}" target="_blank" class="btn btn-sm btn-outline-primary">
+         <i class="bi bi-link-45deg"></i> Buka
+       </a>`
+                : `<span class="text-muted">-</span>`;
 
             rows += `
     <tr>
@@ -1195,6 +1206,7 @@
       }" data-bulan="Hasil_${bulanIniKey}">${
               row["Hasil_" + bulanIniKey] || ""
             }</textarea></td>
+        <td class="text-center">${linkCell}</td>
     </tr>`;
           });
         }
