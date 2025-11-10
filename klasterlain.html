@@ -387,12 +387,9 @@
               ].includes((row["Indikator Kerja"] || "").trim())
             );
             const indikatorGizi = rows.some((row) =>
-              [
-                "Stunting",
-                "Underweight",
-                "Wasting",
-                
-              ].includes((row["Indikator Kerja"] || "").trim())
+              ["Stunting", "Underweight", "Wasting"].includes(
+                (row["Indikator Kerja"] || "").trim()
+              )
             );
 
             const indikatorGigi = rows.some((row) =>
@@ -434,7 +431,7 @@
             } else if (indikatorGigi) {
               link =
                 "https://docs.google.com/spreadsheets/d/1BDsGEIMljBQkHl0JLn86Oe4RPNZTdMdJp-xKe69wGNU/edit?usp=sharing";
-            }else if (indikatorGizi) {
+            } else if (indikatorGizi) {
               link =
                 "https://docs.google.com/spreadsheets/d/10GrrZ9akiB1--1DGJdEJtSkEapot2uLtdOC6wWbxLGg/edit?usp=sharing";
             } else if (indikatorReproduksi) {
@@ -511,22 +508,44 @@
               //   html += renderEditableCell(bulan, rowId, row[bulan]);
               // }
               // Cek apakah indikator gizi (Stunting, Underweight, Wasting)
-const isGiziIndicator = [
-  "Stunting",
-  "Underweight",
-  "Wasting",
-].includes((row["Indikator Kerja"] || "").trim());
+              // Gabungkan semua indikator yang perlu diblok inputnya
 
-for (const bulan of bulanKeys) {
-  html += `
+              /////DISABLE FORM INPUT//////
+              const indikatorButuhCalcList = [
+                "Penggunaan antibiotika pada penatalaksanaan ISPA non pneumonia",
+                "Penggunaan antibiotika pada penatalaksanaan kasus diare non spesifik",
+                "Penggunaan Injeksi pada Myalgia",
+                "Rerata item obat yang diresepkan",
+                "Pengkajian resep,pelayanan resep dan pemberian informasi obat",
+                "Konseling",
+                "Pelayanan Informasi Obat",
+                "Edukasi dan Pemberdayaan masyarakat tentang obat pada Gerakan masyarakat cerdas menggunakan obat",
+              ];
+
+              const indikatorGigiList = [
+                "Persentase pasien yang menderita karies yang berkunjung ke Puskesmas mendapatkan tatalaksana sesuai prosedur.",
+                "Persentase pasien penyakit periodontal (periodontitis dan ginggivitis) yang berkunjung ke Puskesmas mendapatkan tatalaksana sesuai prosedur.",
+                "Persentase kunjungan pasien usia 40-59 tahun perokok di Puskesmas yang mendapatkan skrining untuk penyakit kanker mulut",
+              ];
+
+              const indikatorGiziList = ["Stunting", "Underweight", "Wasting"];
+
+              const indikatorNama = (row["Indikator Kerja"] || "").trim();
+
+              const isDisabled =
+                indikatorButuhCalcList.includes(indikatorNama) ||
+                indikatorGigiList.includes(indikatorNama) ||
+                indikatorGiziList.includes(indikatorNama);
+
+              for (const bulan of bulanKeys) {
+                html += `
     <td class="text-center">
       <input type="text" class="form-control form-control-sm bulan-input"
         data-bulan="${bulan}" data-id="${rowId}" data-old="${row[bulan] || ""}"
         value="${row[bulan] || ""}"
-        ${isGiziIndicator ? "disabled" : ""} />
+        ${isDisabled ? "disabled" : ""} />
     </td>`;
-}
-
+              }
 
               tr.innerHTML = html;
               fragment.appendChild(tr);
