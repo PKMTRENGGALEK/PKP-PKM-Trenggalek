@@ -1,321 +1,392 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PKP 2025</title>
-
-    <!-- Google Sign-In -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Halaman Tidak Ditemukan</title>
     <style>
-      body {
-        margin: 0;
-        font-family: "Poppins", sans-serif;
-        color: #333;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #a8e063, #56ab2f);
-        background-size: 200% 200%;
-        animation: gradientFlow 10s ease infinite;
-      }
-
-      @keyframes gradientFlow {
-        0% {
-          background-position: 0% 50%;
+        :root {
+            --bg-color: #0b0d17;
+            --accent-color: #5d9cec;
+            --text-color: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
-        50% {
-          background-position: 100% 50%;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        100% {
-          background-position: 0% 50%;
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden; /* Mencegah scroll untuk efek paralaks penuh */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
-      }
 
-      #loginDiv {
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 20px;
-        padding: 40px 30px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        width: 95%;
-        max-width: 420px;
-        text-align: center;
-        backdrop-filter: blur(12px);
-      }
-
-      #loginDiv img.logo-pkm {
-        width: 140px;
-        margin-bottom: 15px;
-      }
-
-      h2 {
-        font-size: 1.4rem;
-        font-weight: 600;
-        margin-bottom: 25px;
-        color: #2e7d32;
-      }
-
-      .g-signin-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-      }
-
-      #content {
-        display: none;
-        width: 100vw;
-        height: 100vh;
-        position: relative;
-      }
-
-      iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-      }
-
-      /* === posisi bawah kanan untuk info user + logout === */
-      #userInfo {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 12px;
-        padding: 10px 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 0.9rem;
-        z-index: 999;
-      }
-
-      #userName {
-        color: #2e7d32;
-        line-height: 1.3;
-      }
-
-      #logoutBtn {
-        background: #e53935;
-        color: #fff;
-        border: none;
-        padding: 6px 14px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.85rem;
-        transition: 0.3s;
-      }
-
-      #logoutBtn:hover {
-        background: #c62828;
-      }
-
-      @media (max-width: 600px) {
-        #userInfo {
-          bottom: 10px;
-          right: 10px;
-          flex-direction: column;
-          align-items: flex-end;
-          padding: 8px 10px;
+        /* Latar Belakang Bintang */
+        .stars, .twinkling {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
         }
-      }
+
+        .stars {
+            background: #000 url('https://picsum.photos/seed/stars/200/200') repeat top center; /* Fallback texture */
+            z-index: 0;
+            /* Membuat pola bintang sederhana dengan CSS radial gradients */
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.5;
+        }
+
+        /* Kontainer Utama */
+        main {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        /* Kontainer Astronaut */
+        .astronaut-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Membentuk Astronaut dengan CSS */
+        .astro-head {
+            width: 100px;
+            height: 90px;
+            background: #e6e6e6;
+            border-radius: 40px;
+            position: absolute;
+            top: 30px;
+            left: 50px;
+            z-index: 2;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+        }
+
+        .astro-visor {
+            width: 60px;
+            height: 40px;
+            background: #333;
+            border-radius: 20px 20px 10px 10px;
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            overflow: hidden;
+            border: 3px solid #ccc;
+        }
+
+        .astro-visor::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 15px;
+            height: 15px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+        }
+
+        .astro-body {
+            width: 80px;
+            height: 90px;
+            background: #e6e6e6;
+            border-radius: 30px 30px 10px 10px;
+            position: absolute;
+            top: 110px;
+            left: 60px;
+            z-index: 1;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+        }
+
+        .astro-backpack {
+            width: 50px;
+            height: 70px;
+            background: #ccc;
+            position: absolute;
+            top: 115px;
+            left: 30px;
+            border-radius: 10px;
+            z-index: 0;
+        }
+
+        .astro-arm-left, .astro-arm-right {
+            width: 20px;
+            height: 50px;
+            background: #e6e6e6;
+            border-radius: 10px;
+            position: absolute;
+            top: 115px;
+        }
+
+        .astro-arm-left {
+            left: 45px;
+            transform: rotate(15deg);
+        }
+
+        .astro-arm-right {
+            right: 45px;
+            transform: rotate(-15deg);
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        .astro-leg-left, .astro-leg-right {
+            width: 25px;
+            height: 40px;
+            background: #e6e6e6;
+            border-radius: 10px;
+            position: absolute;
+            top: 190px;
+        }
+
+        .astro-leg-left {
+            left: 70px;
+        }
+
+        .astro-leg-right {
+            right: 70px;
+        }
+
+        /* Teks 404 */
+        .error-code {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 700;
+            letter-spacing: 5px;
+            background: linear-gradient(to bottom, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .error-title {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .error-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            color: #ccc;
+            max-width: 500px;
+        }
+
+        /* Tombol */
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(93, 156, 236, 0.4);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(93, 156, 236, 0.6);
+            background: #4a89dc;
+        }
+
+        .btn-home:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Elemen Dekorasi Tambahan (Planet) */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 5;
+            opacity: 0.8;
+        }
+
+        .planet-1 {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            top: 20%;
+            right: 15%;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .planet-1::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140%;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%) rotate(-20deg);
+            border-radius: 50%;
+        }
+
+        /* Animasi */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(-15deg); }
+            50% { transform: rotate(-5deg); }
+        }
+
+        @keyframes twinkling {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        /* Media Query untuk Mobile */
+        @media (max-width: 768px) {
+            .planet-1 {
+                width: 60px;
+                height: 60px;
+                top: 10%;
+                right: 5%;
+            }
+            
+            .astronaut-container {
+                transform: scale(0.8);
+            }
+        }
     </style>
-  </head>
+</head>
+<body>
 
-  <body>
-    <!-- Halaman Login -->
-    <div id="loginDiv">
-      <img
-        class="logo-pkm"
-        src="https://puskesmastrenggalek.github.io/SIP/assets/pkm.png"
-        alt="Logo Puskesmas"
-      />
-      <h2>Login dengan Google<br />untuk mengakses PKP 2025</h2>
+    <!-- Latar Belakang -->
+    <div class="stars" id="starLayer"></div>
+    
+    <!-- Elemen Dekorasi Planet -->
+    <div class="planet planet-1" id="planet"></div>
 
-      <div
-        id="g_id_onload"
-        data-client_id="159159886422-e3ccfmj01e46qc5rtmubk21fhe3ocjam.apps.googleusercontent.com"
-        data-callback="handleCredentialResponse"
-        data-auto_prompt="false"
-      ></div>
-      <div class="g-signin-container">
-        <div
-          class="g_id_signin"
-          data-type="standard"
-          data-shape="pill"
-          data-theme="outline"
-        ></div>
-      </div>
-    </div>
+    <main>
+        <!-- Karakter Astronaut -->
+        <div class="astronaut-container" id="astronaut">
+            <div class="astro-backpack"></div>
+            <div class="astro-arm-left"></div>
+            <div class="astro-arm-right"></div>
+            <div class="astro-leg-left"></div>
+            <div class="astro-leg-right"></div>
+            <div class="astro-body"></div>
+            <div class="astro-head">
+                <div class="astro-visor"></div>
+            </div>
+        </div>
 
-    <!-- Halaman Konten -->
-    <div id="content">
-      <iframe id="pageFrame" src=""></iframe>
-
-      <div id="userInfo">
-        <span id="userName"></span>
-        <button id="logoutBtn">Logout</button>
-      </div>
-    </div>
+        <!-- Konten Teks -->
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Ups! Tersesat di Angkasa?</h2>
+        <p class="error-desc">
+            Halaman yang Anda cari tidak dapat ditemukan. Mungkin telah hanyut ke lubang hitam atau salah alamat kordinat.
+        </p>
+        
+        <a href="#" class="btn-home" onclick="goBack()">
+            <span class="btn-icon">🚀</span>
+            <span>Kembali ke Bumi</span>
+        </a>
+    </main>
 
     <script>
-      const allowedEmails = [
-        "harapan.triple.x@gmail.com",
-        "pkmpkmtrenggalek@gmail.com",
-        "shevi.ardhian@gmail.com",
-        "windayani0876@gmail.com",
-        "adhitaayu0@gmail.com",
-        "janah.esara14@gmail.com",
-        "bkdewi@gmail.com",
-        "murtirukiyandari@gmail.com",
-        "lisaendrieni8@gmail.com",
-        "rinafadlilah58@gmail.com",
-        "luruh.setyoresmi@gmail.com",
-        "liliksusanti04@gmail.com",
-        "angraininovi84@gmail.com",
-        "dienesayu@gmail.com",
-        "studioku.refresh@gmail.com",
-        "dn.sita.ris@gmail.com",
-        "fitriarahmawati95@gmail.com",
-        "puputwahyu981@gmail.com",
-        "nareswari.kirana80@gmail.com",
-        "kapus01.trenggalek@gmail.com",
-        "anjartricahyaningsih22@gmail.com",
-        "tatiksrisetyorahayu210308@gmail.com",
-        "fidienia@gmail.com",
-        "dwiyantiskp9@gmail.com",
-        "titiksuwanti80@gmail.com",
-        "baaltazard89@gmail.com",
-        "hayuningoctavianti@gmail.com",
-        "rizqiery@gmail.com",
-        "ndewi912@gmail.com",
-        "nurkolisaisy@gmail.com",
-        "bidanparyati83@gmail.com",
-        "yanu.prasetyo84@gmail.com",
-        "dheararawr@gmail.com",
-        "hayyinida@gmail.com",
-        "nyastutik11@gmail.com",
-        "rdewi8848@gmail.com",
-        "yuyunwahyu919@gmail.com",
-        "dewiandrikasmara@gmail.com",
-        "anyuswahyono@gmail.com",
-        "hayuyuda2@gmail.com",
-        "farhaniputri@gmail.com",
-        "lindadwirahayu12@gmail.com",
-        "faqihamrullohhusein@gmail.com",
-        "mubinahpkm@gmail.com",
-        "seliyacitra@gmail.com",
-        "mobilejkn.pusk.trenggalek@gmail.com",
-        "marjiantomarjianto91@gmail.com",
-        "kusuma.bkd88@gmail.com",
-        "maratus233@gmail.com",
-        "Kesgilutpkmtrenggalek@gmail.com",
-        "windayani0876@gmail.com",
-        "anggraininovi84@gmail.com",
-        "labpuskesmastrenggalek@gmail.com",
-        "tatiksukaryati71@gmail.com",
-        "melissateguh1987@gmail.com",
-        "edohermawan1993@gmail.com",
-        "roeky.andari@gmail.com",
-        "tanjeung@gmail.com",
-        "mutupkmgalek@gmail.com",
-      ];
+        // Script untuk Efek Paralaks Mouse
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
 
-      function decodeJwtResponse(token) {
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        return JSON.parse(decodeURIComponent(escape(window.atob(base64))));
-      }
+            // Bergerakkan bintang sedikit (kecepatan lambat)
+            const stars = document.getElementById('starLayer');
+            stars.style.transform = `translateX(${x * 0.5}px) translateY(${y * 0.5}px)`;
 
-      function showContent(data) {
-        document.getElementById("loginDiv").style.display = "none";
-        document.getElementById("content").style.display = "block";
-        document.getElementById(
-          "userName"
-        ).innerHTML = `👋 Halo, <strong>${data.name}</strong><br/><small>${data.email}</small>`;
-        document.getElementById("pageFrame").src = "home.html";
-      }
+            // Bergerakkan planet (kecepatan sedang)
+            const planet = document.getElementById('planet');
+            planet.style.transform = `translateX(${x * 2}px) translateY(${y * 2}px)`;
 
-      function handleCredentialResponse(response) {
-        const data = decodeJwtResponse(response.credential);
-        const email = data.email;
+            // Bergerakkan astronaut (kecepatan lebih cepat untuk efek kedalaman)
+            const astronaut = document.getElementById('astronaut');
+            astronaut.style.transform = `translateX(${x * 4}px) translateY(${y * 4}px)`;
+        });
 
-        if (!allowedEmails.includes(email)) {
-          Swal.fire({
-            icon: "error",
-            title: "Akses Ditolak",
-            text: "Email kamu tidak diizinkan.",
-            confirmButtonColor: "#d33",
-          });
-          return;
+        // Fungsi untuk tombol kembali (Simulasi)
+        function goBack() {
+            // Disini Anda bisa mengubahnya menjadi window.location.href = '/';
+            // Untuk demo ini, kita berikan umpan balik visual
+            const btn = document.querySelector('.btn-home');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<span class="btn-icon">✨</span><span>Meluncur...</span>';
+            btn.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                // Logika pengalihan asli akan ada di sini
+                alert("Mengarahkan Anda kembali ke beranda...");
+                btn.innerHTML = originalText;
+                btn.style.transform = 'scale(1)';
+            }, 500);
         }
 
-        sessionStorage.setItem("userCredential", JSON.stringify(data));
-        showContent(data);
-
-        Swal.fire({
-          icon: "success",
-          title: "Login Berhasil",
-          text: `Selamat datang, ${data.name}!`,
-          timer: 1800,
-          showConfirmButton: false,
-        });
-      }
-
-      function logout() {
-        Swal.fire({
-          title: "Yakin mau logout?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Logout",
-          cancelButtonText: "Batal",
-          confirmButtonColor: "#e53935",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            sessionStorage.removeItem("userCredential");
-            document.getElementById("content").style.display = "none";
-            document.getElementById("pageFrame").src = "";
-            document.getElementById("loginDiv").style.display = "block";
-
-            Swal.fire({
-              icon: "success",
-              title: "Logout berhasil",
-              timer: 1200,
-              showConfirmButton: false,
-            });
-          }
-        });
-      }
-
-      function checkSession() {
-        const savedData = sessionStorage.getItem("userCredential");
-        if (savedData) {
-          const data = JSON.parse(savedData);
-          if (allowedEmails.includes(data.email)) {
-            showContent(data);
-          } else {
-            sessionStorage.removeItem("userCredential");
-          }
+        // Menambahkan bintang secara dinamis untuk variasi
+        function generateStars() {
+            const starContainer = document.body;
+            for(let i=0; i<30; i++) {
+                let star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.background = 'white';
+                star.style.borderRadius = '50%';
+                star.style.opacity = Math.random();
+                star.style.animation = `twinkling ${Math.random() * 3 + 2}s infinite`;
+                star.style.zIndex = '1';
+                starContainer.appendChild(star);
+            }
         }
-      }
-
-      window.onload = checkSession;
-
-      window.addEventListener("DOMContentLoaded", () => {
-        const logoutBtn = document.getElementById("logoutBtn");
-        if (logoutBtn) logoutBtn.addEventListener("click", logout);
-      });
+        
+        // Jalankan saat load
+        window.addEventListener('load', generateStars);
     </script>
-  </body>
+</body>
 </html>
